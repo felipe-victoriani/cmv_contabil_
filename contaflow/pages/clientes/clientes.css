@@ -1,0 +1,246 @@
+/* =============================================
+   clientes.css — Página de Clientes
+   ============================================= */
+.clientes {
+  padding: var(--space-6);
+  max-width: 1400px;
+  margin: 0 auto;
+  width: 100%;
+}
+
+/* Header */
+.clientes__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-4);
+  margin-bottom: var(--space-6);
+  flex-wrap: wrap;
+}
+
+.clientes__title {
+  font-family: var(--font-display);
+  font-size: var(--text-2xl);
+  color: var(--color-ink);
+}
+
+.clientes__header-right {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  flex-wrap: wrap;
+}
+
+/* Search */
+.clientes__search {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.clientes__search i {
+  position: absolute;
+  left: var(--space-3);
+  color: var(--color-muted);
+  font-size: 16px;
+  pointer-events: none;
+}
+
+.clientes__search-input {
+  padding-left: var(--space-8);
+  width: 240px;
+}
+
+/* Grid */
+.clientes__grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--space-4);
+}
+
+/* Card */
+.cliente-card {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+  transition:
+    box-shadow var(--transition-base),
+    transform var(--transition-base);
+  animation: slide-up var(--transition-slow) forwards;
+}
+
+.cliente-card:hover {
+  box-shadow: var(--shadow-md);
+  transform: translateY(-1px);
+}
+
+.cliente-card__header {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--space-3);
+}
+
+.cliente-card__avatar {
+  width: 40px;
+  height: 40px;
+  border-radius: var(--radius-full);
+  background: var(--color-primary-lt);
+  color: var(--color-primary-dk);
+  font-weight: 700;
+  font-size: var(--text-lg);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.cliente-card__info {
+  flex: 1;
+  min-width: 0;
+}
+
+.cliente-card__nome {
+  font-size: var(--text-base);
+  font-weight: 600;
+  font-family: var(--font-body);
+  color: var(--color-ink);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  margin-bottom: var(--space-1);
+}
+
+.cliente-card__regime {
+  font-size: var(--text-xs);
+}
+
+.cliente-card__menu-wrap {
+  position: relative;
+  flex-shrink: 0;
+}
+
+.cliente-card__menu-btn {
+  color: var(--color-muted);
+}
+
+.cliente-card__menu-btn:hover {
+  color: var(--color-ink);
+  background: var(--color-bg);
+}
+
+/* Details */
+.cliente-card__details {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+}
+
+.cliente-card__detail {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  font-size: var(--text-sm);
+  color: var(--color-muted);
+}
+
+.cliente-card__detail i {
+  font-size: 14px;
+  flex-shrink: 0;
+  color: var(--color-muted);
+}
+
+/* Badges */
+.cliente-card__badges {
+  display: flex;
+  gap: var(--space-2);
+  flex-wrap: wrap;
+}
+
+/* Dropdown */
+.cliente-dropdown {
+  position: absolute;
+  top: calc(100% + 4px);
+  right: 0;
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-md);
+  z-index: 50;
+  min-width: 160px;
+  overflow: hidden;
+  animation: slide-up 120ms ease forwards;
+}
+
+.cliente-dropdown__item {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  width: 100%;
+  padding: var(--space-3) var(--space-4);
+  font-size: var(--text-sm);
+  color: var(--color-ink);
+  transition: background var(--transition-fast);
+}
+
+.cliente-dropdown__item:hover {
+  background: var(--color-bg);
+}
+
+.cliente-dropdown__item--danger {
+  color: var(--color-danger);
+}
+
+.cliente-dropdown__item--danger:hover {
+  background: var(--color-danger-lt);
+}
+
+/* Skeleton */
+.cliente-card--skeleton {
+  pointer-events: none;
+}
+
+/* Empty */
+.clientes__empty {
+  grid-column: 1 / -1;
+}
+
+/* =============================================
+   Breakpoints
+   ============================================= */
+@media (min-width: 768px) {
+  .clientes__grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (min-width: 1024px) {
+  .clientes__grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+@media (min-width: 1280px) {
+  .clientes__grid {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
+
+@media (max-width: 480px) {
+  .clientes {
+    padding: var(--space-4);
+  }
+
+  .clientes__header {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .clientes__header-right {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .clientes__search-input {
+    width: 100%;
+  }
+}

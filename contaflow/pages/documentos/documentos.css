@@ -1,0 +1,207 @@
+/* =============================================
+   documentos.css — Página de Documentos
+   ============================================= */
+.documentos {
+  padding: var(--space-6);
+  max-width: 1300px;
+  margin: 0 auto;
+  width: 100%;
+}
+
+/* Header */
+.documentos__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-4);
+  margin-bottom: var(--space-5);
+}
+
+.documentos__title {
+  font-family: var(--font-display);
+  font-size: var(--text-2xl);
+}
+
+/* Filtros */
+.documentos__filtros {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  margin-bottom: var(--space-5);
+  flex-wrap: wrap;
+}
+
+.documentos__busca {
+  position: relative;
+  flex: 1;
+  min-width: 200px;
+}
+
+.documentos__busca i {
+  position: absolute;
+  left: var(--space-3);
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--color-muted);
+  font-size: 16px;
+  pointer-events: none;
+}
+
+.documentos__busca .input {
+  padding-left: var(--space-8);
+  width: 100%;
+}
+
+.documentos__filtro-sel {
+  min-width: 160px;
+}
+
+/* Table wrapper */
+.documentos__table-wrap {
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  overflow-x: auto;
+  box-shadow: var(--shadow-sm);
+}
+
+/* Table */
+.documentos__table {
+  width: 100%;
+  min-width: 640px;
+}
+
+.documentos__table thead tr {
+  border-bottom: 1px solid var(--color-border);
+}
+
+.documentos__table th {
+  padding: var(--space-3) var(--space-4);
+  font-size: var(--text-xs);
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--color-muted);
+  text-align: left;
+  white-space: nowrap;
+}
+
+.documentos__table td {
+  padding: var(--space-3) var(--space-4);
+  font-size: var(--text-sm);
+  color: var(--color-ink);
+  border-bottom: 1px solid var(--color-border);
+  vertical-align: middle;
+}
+
+.documentos__table tbody tr:last-child td {
+  border-bottom: none;
+}
+
+.documentos__table tbody tr:hover td {
+  background: var(--color-bg);
+}
+
+/* Row specific */
+.docs-row__nome {
+  font-weight: 500;
+}
+
+.docs-row__obs {
+  color: var(--color-muted);
+  max-width: 200px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.docs-row__actions {
+  display: flex;
+  gap: var(--space-1);
+  opacity: 0;
+  transition: opacity var(--transition-fast);
+  white-space: nowrap;
+}
+
+.documentos__table tbody tr:hover .docs-row__actions,
+.documentos__table tbody tr:focus-within .docs-row__actions {
+  opacity: 1;
+}
+
+.docs-row__actions .btn {
+  color: var(--color-muted);
+}
+
+.docs-row__actions .btn:hover {
+  color: var(--color-ink);
+}
+
+.docs-delete:hover {
+  background: var(--color-danger-lt) !important;
+  color: var(--color-danger) !important;
+}
+
+/* Status badge (clickable) */
+.docs-status-btn {
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-1);
+  transition: filter var(--transition-fast);
+}
+
+.docs-status-btn:not(:disabled):hover {
+  filter: brightness(0.9);
+}
+
+.docs-status-btn:disabled {
+  cursor: default;
+}
+
+/* Empty */
+.documentos__table .empty-state {
+  padding: var(--space-10) var(--space-6);
+}
+
+/* Screen reader */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border-width: 0;
+}
+
+@media (max-width: 767px) {
+  .documentos {
+    padding: var(--space-4);
+  }
+
+  .documentos__header {
+    flex-wrap: wrap;
+  }
+
+  .documentos__filtros {
+    gap: var(--space-2);
+  }
+
+  .documentos__busca {
+    min-width: 100%;
+  }
+
+  .documentos__filtro-sel {
+    flex: 1;
+    min-width: unset;
+  }
+}
+
+@media (max-width: 480px) {
+  .documentos__filtros {
+    flex-direction: column;
+    align-items: stretch;
+  }
+}

@@ -1,0 +1,39 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>CMV Contabilidade</title>
+
+    <!-- Fontes -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;1,9..40,400&display=swap"
+      rel="stylesheet"
+    />
+
+    <!-- Phosphor Icons -->
+    <script src="https://unpkg.com/phosphor-icons"></script>
+
+    <!-- Estilos globais -->
+    <link rel="stylesheet" href="styles/reset.css" />
+    <link rel="stylesheet" href="styles/tokens.css" />
+    <link rel="stylesheet" href="styles/typography.css" />
+    <link rel="stylesheet" href="styles/animations.css" />
+    <link rel="stylesheet" href="styles/global.css" />
+    <link rel="stylesheet" href="components/modal/modal.css" />
+    <link rel="stylesheet" href="components/toast/toast.css" />
+  </head>
+  <body>
+    <div id="app">
+      <div id="topbar-root"></div>
+      <main id="page-root"></main>
+    </div>
+
+    <div id="toast-root" aria-live="polite" aria-atomic="false"></div>
+    <div id="modal-root"></div>
+
+    <script type="module" src="main.js"></script>
+  </body>
+</html>

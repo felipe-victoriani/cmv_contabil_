@@ -1,0 +1,121 @@
+/* =============================================
+   modal.css — Estilos do componente Modal
+   ============================================= */
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(26, 24, 20, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--space-4);
+  z-index: 1000;
+  animation: fade-in var(--transition-modal) forwards;
+}
+
+.modal {
+  background: var(--color-surface);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-lg);
+  width: 100%;
+  max-height: 90vh;
+  display: flex;
+  flex-direction: column;
+  animation: slide-up var(--transition-modal) forwards;
+}
+
+.modal--sm {
+  max-width: 400px;
+}
+.modal--md {
+  max-width: 560px;
+}
+.modal--lg {
+  max-width: 760px;
+}
+
+.modal__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: var(--space-5) var(--space-6);
+  border-bottom: 1px solid var(--color-border);
+  flex-shrink: 0;
+}
+
+.modal__title {
+  font-family: var(--font-body);
+  font-size: var(--text-lg);
+  font-weight: 600;
+  color: var(--color-ink);
+}
+
+.modal__close {
+  color: var(--color-muted);
+  padding: var(--space-1);
+  border-radius: var(--radius-sm);
+}
+
+.modal__close:hover {
+  color: var(--color-ink);
+  background: var(--color-bg);
+}
+
+.modal__body {
+  padding: var(--space-6);
+  overflow-y: auto;
+  flex: 1;
+}
+
+.modal__body p {
+  color: var(--color-muted);
+  font-size: var(--text-sm);
+  line-height: 1.6;
+}
+
+.modal__footer {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: var(--space-3);
+  padding: var(--space-4) var(--space-6);
+  border-top: 1px solid var(--color-border);
+  flex-shrink: 0;
+}
+
+/* Animação de saída */
+@keyframes modal-out {
+  to {
+    opacity: 0;
+    transform: scale(0.97);
+  }
+}
+@keyframes overlay-out {
+  to {
+    opacity: 0;
+  }
+}
+
+.modal--exiting {
+  animation: modal-out 180ms ease forwards;
+}
+.modal-overlay--exiting {
+  animation: overlay-out 180ms ease forwards;
+}
+
+/* Form dentro do modal */
+.modal__body .form-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--space-4);
+}
+
+.modal__body .form-grid--full {
+  grid-column: 1 / -1;
+}
+
+@media (max-width: 480px) {
+  .modal__body .form-grid {
+    grid-template-columns: 1fr;
+  }
+}

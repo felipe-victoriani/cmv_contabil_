@@ -1,0 +1,72 @@
+/* =============================================
+   tokens.css — Design Tokens
+   ============================================= */
+@layer tokens {
+  :root {
+    /* Superfícies */
+    --color-bg: #f5f2ed;
+    --color-surface: #ffffff;
+    --color-border: #e2ddd7;
+    --color-ink: #1a1814;
+    --color-muted: #7a7570;
+
+    /* Primária */
+    --color-primary: #2d6a4f;
+    --color-primary-lt: #d8eddf;
+    --color-primary-dk: #1b4332;
+
+    /* Semânticas */
+    --color-warning: #b5860d;
+    --color-warning-lt: #fef6e4;
+    --color-danger: #c0392b;
+    --color-danger-lt: #fdecea;
+    --color-info: #2563eb;
+    --color-info-lt: #dbeafe;
+    --color-success: #2d6a4f;
+    --color-success-lt: #d8eddf;
+
+    /* Tipografia */
+    --font-display: "DM Serif Display", serif;
+    --font-body: "DM Sans", sans-serif;
+    --text-xs: 11px;
+    --text-sm: 13px;
+    --text-base: 14px;
+    --text-lg: 16px;
+    --text-xl: 20px;
+    --text-2xl: 26px;
+    --text-3xl: 34px;
+
+    /* Espaçamentos */
+    --space-1: 4px;
+    --space-2: 8px;
+    --space-3: 12px;
+    --space-4: 16px;
+    --space-5: 20px;
+    --space-6: 24px;
+    --space-8: 32px;
+    --space-10: 40px;
+    --space-12: 48px;
+
+    /* Bordas */
+    --radius-sm: 6px;
+    --radius-md: 10px;
+    --radius-lg: 16px;
+    --radius-xl: 24px;
+    --radius-full: 999px;
+
+    /* Sombras */
+    --shadow-sm: 0 1px 4px rgba(0, 0, 0, 0.06);
+    --shadow-md: 0 2px 12px rgba(0, 0, 0, 0.08);
+    --shadow-lg: 0 8px 32px rgba(0, 0, 0, 0.12);
+
+    /* Transições */
+    --transition-fast: 100ms ease;
+    --transition-base: 150ms ease;
+    --transition-slow: 250ms ease;
+    --transition-modal: 200ms ease-out;
+
+    /* Layout */
+    --topbar-height: 56px;
+    --sidebar-width: 220px;
+  }
+}

@@ -1,0 +1,208 @@
+/* =============================================
+   topbar.css — Estilos da Topbar
+   ============================================= */
+.topbar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: var(--topbar-height);
+  background: var(--color-surface);
+  border-bottom: 1px solid var(--color-border);
+  display: flex;
+  align-items: center;
+  padding: 0 var(--space-6);
+  gap: var(--space-6);
+  z-index: 100;
+  box-shadow: var(--shadow-sm);
+}
+
+/* Brand */
+.topbar__brand {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  flex-shrink: 0;
+}
+
+.topbar__logo {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  font-family: var(--font-display);
+  font-size: var(--text-xl);
+  color: var(--color-primary);
+  white-space: nowrap;
+}
+
+.topbar__logo i {
+  font-size: 22px;
+}
+
+/* Hamburger */
+.topbar__hamburger {
+  display: none;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  border-radius: var(--radius-md);
+  color: var(--color-muted);
+  font-size: 20px;
+  transition:
+    background var(--transition-base),
+    color var(--transition-base);
+}
+
+.topbar__hamburger:hover {
+  background: var(--color-bg);
+  color: var(--color-ink);
+}
+
+/* Nav */
+.topbar__nav {
+  flex: 1;
+}
+
+.topbar__nav-list {
+  display: flex;
+  align-items: center;
+  gap: var(--space-1);
+}
+
+.topbar__nav-link {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  padding: var(--space-2) var(--space-3);
+  border-radius: var(--radius-md);
+  font-size: var(--text-sm);
+  font-weight: 500;
+  color: var(--color-muted);
+  transition:
+    background var(--transition-base),
+    color var(--transition-base);
+}
+
+.topbar__nav-link:hover {
+  background: var(--color-bg);
+  color: var(--color-ink);
+}
+
+.topbar__nav-link--active {
+  background: var(--color-primary-lt);
+  color: var(--color-primary-dk);
+}
+
+.topbar__nav-link i {
+  font-size: 16px;
+}
+
+/* Actions */
+.topbar__actions {
+  margin-left: auto;
+  flex-shrink: 0;
+}
+
+.topbar__user {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+}
+
+.topbar__avatar {
+  width: 32px;
+  height: 32px;
+  border-radius: var(--radius-full);
+  background: var(--color-primary);
+  color: #fff;
+  font-size: var(--text-sm);
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.topbar__email {
+  font-size: var(--text-sm);
+  color: var(--color-muted);
+  max-width: 160px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.topbar__logout {
+  color: var(--color-muted);
+}
+
+.topbar__logout:hover {
+  color: var(--color-danger);
+}
+
+/* Overlay (mobile) */
+.topbar__overlay {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.4);
+  z-index: 99;
+}
+
+.topbar__overlay--visible {
+  display: block;
+}
+
+/* =============================================
+   Mobile
+   ============================================= */
+@media (max-width: 767px) {
+  .topbar {
+    padding: 0 var(--space-4);
+    gap: var(--space-3);
+  }
+
+  .topbar__hamburger {
+    display: flex;
+  }
+
+  .topbar__nav {
+    position: fixed;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    width: var(--sidebar-width);
+    background: var(--color-surface);
+    border-right: 1px solid var(--color-border);
+    z-index: 100;
+    padding: var(--space-8) var(--space-4);
+    transform: translateX(-100%);
+    transition: transform var(--transition-slow);
+  }
+
+  .topbar__nav--open {
+    transform: translateX(0);
+    animation: slide-in-left var(--transition-slow) forwards;
+  }
+
+  .topbar__nav-list {
+    flex-direction: column;
+    align-items: stretch;
+    gap: var(--space-1);
+  }
+
+  .topbar__nav-link {
+    padding: var(--space-3) var(--space-4);
+  }
+
+  .topbar__email {
+    display: none;
+  }
+}
+
+@media (min-width: 768px) and (max-width: 1023px) {
+  .topbar__email {
+    display: none;
+  }
+}
