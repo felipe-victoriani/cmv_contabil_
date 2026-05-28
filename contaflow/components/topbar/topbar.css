@@ -98,6 +98,28 @@
   font-size: 16px;
 }
 
+/* Badge de alerta (prazos urgentes) */
+.topbar__nav-link {
+  position: relative;
+}
+
+.topbar__badge {
+  position: absolute;
+  top: 2px;
+  right: 2px;
+  min-width: 16px;
+  height: 16px;
+  padding: 0 4px;
+  border-radius: var(--radius-full);
+  background: var(--color-danger);
+  color: #fff;
+  font-size: 10px;
+  font-weight: 700;
+  line-height: 16px;
+  text-align: center;
+  pointer-events: none;
+}
+
 /* Actions */
 .topbar__actions {
   margin-left: auto;

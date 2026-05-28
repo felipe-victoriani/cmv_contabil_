@@ -141,3 +141,33 @@ function updateActive() {
     link.setAttribute("aria-current", active ? "page" : "false");
   });
 }
+
+/**
+ * Atualiza o badge de alertas no link de Prazos.
+ * @param {number} count - Quantidade de prazos urgentes/vencidos não concluídos
+ */
+export function updatePrazosAlert(count) {
+  const link = document.querySelector(
+    '.topbar__nav-link[data-hash="#/prazos"]',
+  );
+  if (!link) return;
+
+  let badge = link.querySelector(".topbar__badge");
+
+  if (count <= 0) {
+    badge?.remove();
+    return;
+  }
+
+  if (!badge) {
+    badge = document.createElement("span");
+    badge.className = "topbar__badge";
+    badge.setAttribute(
+      "aria-label",
+      `${count} prazo${count > 1 ? "s" : ""} urgente${count > 1 ? "s" : ""}`,
+    );
+    link.appendChild(badge);
+  }
+
+  badge.textContent = count > 9 ? "9+" : String(count);
+}
