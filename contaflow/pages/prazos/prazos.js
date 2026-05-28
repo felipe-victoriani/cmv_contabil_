@@ -79,7 +79,6 @@ export function unmount() {
   unsubPrazos = unsubClientes = unsubUsuarios = null;
   mesFiltro = mesAtual();
   filtroResponsavel = "";
-  removeCSS(CSS_ID);
 }
 
 /** @returns {string} HTML do shell */

@@ -69,7 +69,6 @@ export function unmount() {
   unsubDocumentos?.();
   unsubClientes = unsubTarefas = unsubDocumentos = null;
   filtro = "";
-  removeCSS(CSS_ID);
 }
 
 /** @returns {string} HTML do shell da página */

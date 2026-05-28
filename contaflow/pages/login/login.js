@@ -24,9 +24,7 @@ export function mount(container) {
 }
 
 /** Remove a página de login. */
-export function unmount() {
-  removeCSS(CSS_ID);
-}
+export function unmount() {}
 
 /** @returns {string} HTML da página */
 function template() {

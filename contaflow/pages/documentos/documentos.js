@@ -75,7 +75,6 @@ export function unmount() {
   unsubClientes?.();
   unsubDocs = unsubClientes = null;
   filtroCliente = filtroStatus = filtroBusca = "";
-  removeCSS(CSS_ID);
 }
 
 /** @returns {string} HTML do shell */

@@ -74,7 +74,6 @@ export function unmount() {
   unsubTarefas = unsubClientes = unsubUsuarios = null;
   filtroCliente = "";
   filtroResponsavel = "";
-  removeCSS(CSS_ID);
 }
 
 /** @returns {string} HTML do shell */
