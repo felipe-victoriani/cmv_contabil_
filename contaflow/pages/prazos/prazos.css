@@ -235,12 +235,28 @@
   }
 
   .prazos__header {
-    flex-wrap: wrap;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: var(--space-3);
   }
 
   .prazos__nav {
     width: 100%;
     justify-content: center;
+  }
+
+  .prazos__filtros {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .prazos__filtros .input {
+    max-width: 100%;
+  }
+
+  .prazo-item {
+    flex-wrap: wrap;
+    gap: var(--space-2);
   }
 
   .prazo-item__meta {
@@ -250,9 +266,7 @@
   /* Em touch, sempre mostrar as actions */
   .prazo-item__actions {
     opacity: 1;
-  }
-
-  .prazos__filtros .input {
-    max-width: 100%;
+    flex-basis: 100%;
+    justify-content: flex-end;
   }
 }

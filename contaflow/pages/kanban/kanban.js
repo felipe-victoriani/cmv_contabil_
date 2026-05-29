@@ -49,6 +49,13 @@ export async function mount(container) {
   container.innerHTML = templateShell();
   bindPageEvents(container);
 
+  // Em dispositivos touch, desativa draggable para não interferir no scroll horizontal
+  if (window.matchMedia("(hover: none) and (pointer: coarse)").matches) {
+    container.querySelectorAll("[draggable]").forEach((el) => {
+      el.removeAttribute("draggable");
+    });
+  }
+
   unsubClientes = watchClientes((data) => {
     setState("clientes", data);
     renderFiltroClientes(container);
@@ -296,6 +303,13 @@ function renderBoard(container) {
 
     bindDropZone(cardsEl, col.id);
     bindCardEvents(cardsEl, container);
+
+    // Remove draggable em touch para não bloquear o scroll horizontal
+    if (window.matchMedia("(hover: none) and (pointer: coarse)").matches) {
+      cardsEl.querySelectorAll("[draggable]").forEach((el) => {
+        el.removeAttribute("draggable");
+      });
+    }
   });
 }
 

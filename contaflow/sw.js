@@ -72,7 +72,16 @@ function shouldBypass(url) {
 // ── Install: pré-cacheamento dos assets estáticos ──
 self.addEventListener("install", (event) => {
   event.waitUntil(
-    caches.open(CACHE_NAME).then((cache) => cache.addAll(STATIC_ASSETS)),
+    caches.open(CACHE_NAME).then((cache) =>
+      // Cacheia cada asset individualmente — ignora falhas pontuais (404, etc.)
+      Promise.allSettled(
+        STATIC_ASSETS.map((url) =>
+          cache.add(url).catch(() => {
+            /* ignorar falha deste asset */
+          }),
+        ),
+      ),
+    ),
   );
   self.skipWaiting();
 });

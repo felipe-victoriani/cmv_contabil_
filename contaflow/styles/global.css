@@ -271,4 +271,24 @@
     outline: 2px solid var(--color-primary);
     outline-offset: 2px;
   }
+
+  /* Touch target mínimo (Apple HIG: 44px) */
+  @media (hover: none) and (pointer: coarse) {
+    .btn,
+    button,
+    [role="button"],
+    .topbar__nav-link,
+    .topbar__hamburger,
+    .topbar__logout {
+      min-height: 44px;
+      min-width: 44px;
+    }
+
+    .input,
+    select.input,
+    textarea.input {
+      min-height: 44px;
+      font-size: 16px; /* Evita zoom no iOS ao focar */
+    }
+  }
 }

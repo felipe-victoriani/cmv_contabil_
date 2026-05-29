@@ -210,6 +210,16 @@
   margin-bottom: var(--space-2);
 }
 
+/* Responsável (mesmo visual que cliente) */
+.kanban__card-responsavel {
+  display: flex;
+  align-items: center;
+  gap: var(--space-1);
+  font-size: var(--text-xs);
+  color: var(--color-muted);
+  margin-top: var(--space-1);
+}
+
 .kanban__card-vencimento {
   display: flex;
   align-items: center;
@@ -267,6 +277,13 @@
   transform: rotate(180deg);
 }
 
+/* Em touch: expand-hint sempre visível */
+@media (hover: none) {
+  .kanban__card-expand-hint {
+    opacity: 0.6;
+  }
+}
+
 @media (max-width: 767px) {
   .kanban {
     padding: var(--space-4);
@@ -274,16 +291,14 @@
     overflow: visible;
   }
 
-  .kanban__board {
-    overflow-x: auto;
-    padding-bottom: var(--space-4);
-  }
-
-  .kanban__col {
-    flex: 0 0 260px;
+  /* Header empilhado no mobile */
+  .kanban__header {
+    flex-direction: column;
+    align-items: flex-start;
   }
 
   .kanban__controls {
+    width: 100%;
     flex-wrap: wrap;
   }
 
@@ -292,8 +307,44 @@
     flex: 1;
   }
 
+  /* Board horizontal com scroll suave e snap */
+  .kanban__board {
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    -webkit-overflow-scrolling: touch;
+    padding-bottom: var(--space-4);
+    /* Esconde scrollbar mas mantém funcionalidade */
+    scrollbar-width: thin;
+  }
+
+  /* Coluna: 82vw para caber quase 1 coluna e revelar a próxima */
+  .kanban__col {
+    flex: 0 0 82vw;
+    max-width: 320px;
+    max-height: none; /* Parent é height:auto no mobile */
+    scroll-snap-align: start;
+  }
+
+  /* Limita altura das colunas para scroll interno no mobile */
+  .kanban__col-cards {
+    max-height: 55vh;
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+
   /* Em touch, sempre mostrar as actions dos cards */
   .kanban__card-actions {
     opacity: 1;
+  }
+
+  /* Sobrescreve o tamanho fixo 28px dos botões de ação — mínimo 44px touch target */
+  .kanban__card-actions .btn {
+    width: 44px;
+    height: 44px;
+  }
+
+  /* Cards devem ter altura mínima de toque adequada */
+  .kanban__card {
+    min-height: 44px;
   }
 }

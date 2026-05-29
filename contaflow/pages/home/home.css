@@ -401,6 +401,26 @@
   max-width: 200px;
 }
 
+@media (max-width: 767px) {
+  .atividade-item__texto {
+    max-width: 100%;
+    white-space: normal;
+    overflow: visible;
+  }
+
+  .alerta-item__cliente {
+    max-width: 100px;
+  }
+
+  .kpi-card {
+    padding: var(--space-4) var(--space-4);
+  }
+
+  .kpi-card__number {
+    font-size: var(--text-2xl);
+  }
+}
+
 .atividade-item__meta {
   display: block;
   font-size: var(--text-xs);
