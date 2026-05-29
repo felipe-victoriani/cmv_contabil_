@@ -268,13 +268,14 @@ function renderKPIs() {
     (d) => d.status === "pendente",
   ).length;
 
+  const doneDate = (item) =>
+    toLocalDate(item.atualizadoEm) ?? toLocalDate(item.criadoEm);
+
   const concluidasHoje = [
     ...Object.values(tarefas).filter(
-      (t) => t.status === "done" && toLocalDate(t.atualizadoEm) === hoje,
+      (t) => t.status === "done" && doneDate(t) === hoje,
     ),
-    ...Object.values(prazos).filter(
-      (p) => p.done && toLocalDate(p.atualizadoEm) === hoje,
-    ),
+    ...Object.values(prazos).filter((p) => p.done && doneDate(p) === hoje),
   ].length;
 
   setText("kpi-prazos-num", prazosUrgentes);

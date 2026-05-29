@@ -521,6 +521,7 @@ async function submitTarefa(close, id) {
       await atualizarTarefa(id, dados);
       showToast("Tarefa atualizada.", "success");
     } else {
+      if (dados.status === "done") dados.atualizadoEm = Date.now();
       await criarTarefa(dados);
       showToast("Tarefa criada.", "success");
     }
