@@ -17,8 +17,8 @@ const CSS_ID = "css-login";
  * Monta a página de login.
  * @param {HTMLElement} container
  */
-export function mount(container) {
-  injectCSS("pages/login/login.css", CSS_ID);
+export async function mount(container) {
+  await injectCSS("pages/login/login.css", CSS_ID);
   container.innerHTML = template();
   bindEvents(container);
 }

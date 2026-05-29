@@ -52,8 +52,8 @@ const STATUS_NEXT_LABEL = {
  * Monta a página de documentos.
  * @param {HTMLElement} container
  */
-export function mount(container) {
-  injectCSS("pages/documentos/documentos.css", CSS_ID);
+export async function mount(container) {
+  await injectCSS("pages/documentos/documentos.css", CSS_ID);
   container.innerHTML = templateShell();
   bindPageEvents(container);
 

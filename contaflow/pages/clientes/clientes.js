@@ -40,8 +40,8 @@ let filtro = "";
  * Monta a página de clientes.
  * @param {HTMLElement} container
  */
-export function mount(container) {
-  injectCSS("pages/clientes/clientes.css", CSS_ID);
+export async function mount(container) {
+  await injectCSS("pages/clientes/clientes.css", CSS_ID);
   container.innerHTML = templateShell();
   bindPageEvents(container);
 

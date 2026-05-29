@@ -43,8 +43,8 @@ let draggingId = null;
  * Monta a página Kanban.
  * @param {HTMLElement} container
  */
-export function mount(container) {
-  injectCSS("pages/kanban/kanban.css", CSS_ID);
+export async function mount(container) {
+  await injectCSS("pages/kanban/kanban.css", CSS_ID);
   container.innerHTML = templateShell();
   bindPageEvents(container);
 

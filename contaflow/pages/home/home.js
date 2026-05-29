@@ -16,8 +16,8 @@ const unsubs = [];
  * Monta a página Home.
  * @param {HTMLElement} container
  */
-export function mount(container) {
-  injectCSS("pages/home/home.css", CSS_ID);
+export async function mount(container) {
+  await injectCSS("pages/home/home.css", CSS_ID);
   container.innerHTML = template();
   setDate();
   setGreeting();

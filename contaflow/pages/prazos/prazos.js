@@ -54,8 +54,8 @@ const TIPOS = [
  * Monta a página de prazos.
  * @param {HTMLElement} container
  */
-export function mount(container) {
-  injectCSS("pages/prazos/prazos.css", CSS_ID);
+export async function mount(container) {
+  await injectCSS("pages/prazos/prazos.css", CSS_ID);
   container.innerHTML = templateShell();
   bindPageEvents(container);
 
