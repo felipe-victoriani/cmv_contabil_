@@ -5,6 +5,9 @@ import { setState } from "./store/app.store.js";
 import { register, navigate, resolveRoute } from "./router/router.js";
 import { watchAuthState } from "./services/auth.service.js";
 import { watchPrazos } from "./services/prazos.service.js";
+import { watchTarefas } from "./services/tarefas.service.js";
+import { watchClientes } from "./services/clientes.service.js";
+import { watchDocumentos } from "./services/documentos.service.js";
 import {
   mount as mountTopbar,
   unmount as unmountTopbar,
@@ -25,6 +28,9 @@ import * as DocumentosPage from "./pages/documentos/documentos.js";
 initToast();
 
 /** @type {function|null} */ let unsubPrazosAlert = null;
+/** @type {function|null} */ let unsubTarefasGlobal = null;
+/** @type {function|null} */ let unsubClientesGlobal = null;
+/** @type {function|null} */ let unsubDocumentosGlobal = null;
 
 /**
  * Inicia a assinatura de prazos para o sistema de alertas.
@@ -33,6 +39,7 @@ initToast();
 function startPrazosAlert() {
   unsubPrazosAlert?.();
   unsubPrazosAlert = watchPrazos((prazos) => {
+    setState("prazos", prazos);
     const urgentes = Object.values(prazos).filter((p) => {
       if (p.done) return false;
       const dias = diasRestantes(p.vencimento);
@@ -65,6 +72,30 @@ function stopPrazosAlert() {
   updatePrazosAlert(0);
 }
 
+/** Inicia watchers globais que populam o store para todas as coleções. */
+function startGlobalWatchers() {
+  unsubTarefasGlobal?.();
+  unsubClientesGlobal?.();
+  unsubDocumentosGlobal?.();
+  unsubTarefasGlobal = watchTarefas((data) => setState("tarefas", data));
+  unsubClientesGlobal = watchClientes((data) => setState("clientes", data));
+  unsubDocumentosGlobal = watchDocumentos((data) =>
+    setState("documentos", data),
+  );
+}
+
+/** Para watchers globais ao sair. */
+function stopGlobalWatchers() {
+  unsubTarefasGlobal?.();
+  unsubClientesGlobal?.();
+  unsubDocumentosGlobal?.();
+  unsubTarefasGlobal = unsubClientesGlobal = unsubDocumentosGlobal = null;
+  setState("tarefas", {});
+  setState("clientes", {});
+  setState("documentos", {});
+  setState("prazos", {});
+}
+
 // Registra rotas
 register("#/login", LoginPage);
 register("#/", HomePage);
@@ -82,10 +113,12 @@ watchAuthState(async (user) => {
 
   if (user) {
     await mountTopbar(user);
+    startGlobalWatchers();
     startPrazosAlert();
     if (hash === "#/login") navigate("#/home");
     else resolveRoute();
   } else {
+    stopGlobalWatchers();
     stopPrazosAlert();
     unmountTopbar();
     navigate("#/login");
