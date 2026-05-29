@@ -9,6 +9,7 @@ import { injectCSS, removeCSS } from "../../utils/css.utils.js";
 const CSS_ID = "css-topbar";
 
 const NAV_ITEMS = [
+  { hash: "#/home", label: "Home", icon: "house" },
   { hash: "#/clientes", label: "Clientes", icon: "users" },
   { hash: "#/kanban", label: "Tarefas", icon: "kanban" },
   { hash: "#/prazos", label: "Prazos", icon: "calendar" },
@@ -134,7 +135,9 @@ function bindEvents(root) {
  * Marca o link de navegação ativo de acordo com o hash atual.
  */
 function updateActive() {
-  const hash = window.location.hash || "#/clientes";
+  let hash = window.location.hash || "#/home";
+  // Trata raiz como home
+  if (hash === "#/" || hash === "#") hash = "#/home";
   document.querySelectorAll(".topbar__nav-link").forEach((link) => {
     const active = link.dataset.hash === hash;
     link.classList.toggle("topbar__nav-link--active", active);

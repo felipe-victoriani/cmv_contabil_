@@ -15,6 +15,7 @@ import { diasRestantes } from "./utils/date.utils.js";
 
 // Pages
 import * as LoginPage from "./pages/login/login.js";
+import * as HomePage from "./pages/home/home.js";
 import * as ClientesPage from "./pages/clientes/clientes.js";
 import * as KanbanPage from "./pages/kanban/kanban.js";
 import * as PrazosPage from "./pages/prazos/prazos.js";
@@ -66,6 +67,8 @@ function stopPrazosAlert() {
 
 // Registra rotas
 register("#/login", LoginPage);
+register("#/", HomePage);
+register("#/home", HomePage);
 register("#/clientes", ClientesPage);
 register("#/kanban", KanbanPage);
 register("#/prazos", PrazosPage);
@@ -80,7 +83,7 @@ watchAuthState((user) => {
   if (user) {
     mountTopbar(user);
     startPrazosAlert();
-    if (hash === "#/login") navigate("#/clientes");
+    if (hash === "#/login") navigate("#/home");
     else resolveRoute();
   } else {
     stopPrazosAlert();

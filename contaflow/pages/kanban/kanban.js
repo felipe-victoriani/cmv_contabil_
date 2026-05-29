@@ -269,7 +269,14 @@ function renderBoard(container) {
               : ""
           }
 
-          ${t.descricao ? `<p class="kanban__card-desc">${t.descricao}</p>` : ""}
+          ${
+            t.descricao
+              ? `<p class="kanban__card-desc">${t.descricao}</p>
+            <div class="kanban__card-expand-hint" aria-hidden="true">
+              <i class="ph ph-caret-down"></i>
+            </div>`
+              : ""
+          }
 
           ${
             responsavel
@@ -336,6 +343,12 @@ function bindCardEvents(el, container) {
     });
     card.addEventListener("dragend", () => {
       card.classList.remove("kanban__card--dragging");
+    });
+
+    // Expandir/recolher ao clicar no corpo do card
+    card.addEventListener("click", (e) => {
+      if (e.target.closest(".kanban__card-actions")) return;
+      card.classList.toggle("kanban__card--expanded");
     });
   });
 

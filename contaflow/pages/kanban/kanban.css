@@ -128,7 +128,7 @@
   border-radius: var(--radius-md);
   padding: var(--space-3);
   box-shadow: var(--shadow-sm);
-  cursor: grab;
+  cursor: pointer;
   transition:
     box-shadow var(--transition-base),
     opacity var(--transition-base),
@@ -144,6 +144,10 @@
   opacity: 0.5;
   transform: rotate(1.5deg) scale(1.02);
   cursor: grabbing;
+}
+
+.kanban__card--expanded {
+  box-shadow: var(--shadow-md);
 }
 
 .kanban__card--atrasado {
@@ -230,6 +234,37 @@
   -webkit-line-clamp: 2;
   -webkit-box-orient: vertical;
   overflow: hidden;
+  transition: all var(--transition-base);
+}
+
+.kanban__card--expanded .kanban__card-desc {
+  display: block;
+  -webkit-line-clamp: unset;
+  overflow: visible;
+}
+
+.kanban__card-expand-hint {
+  display: flex;
+  justify-content: center;
+  margin-top: var(--space-2);
+  color: var(--color-muted);
+  font-size: 14px;
+  opacity: 0.45;
+  transition:
+    opacity var(--transition-fast),
+    transform var(--transition-fast);
+}
+
+.kanban__card-expand-hint i {
+  transition: transform var(--transition-fast);
+}
+
+.kanban__card:hover .kanban__card-expand-hint {
+  opacity: 0.8;
+}
+
+.kanban__card--expanded .kanban__card-expand-hint i {
+  transform: rotate(180deg);
 }
 
 @media (max-width: 767px) {

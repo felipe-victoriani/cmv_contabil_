@@ -32,11 +32,11 @@ export function navigate(hash) {
  * Resolve a rota atual e monta a página correspondente.
  */
 function resolve() {
-  const hash = window.location.hash || "#/clientes";
+  const hash = window.location.hash || "#/home";
   const page = routes[hash];
 
   if (!page) {
-    navigate("#/clientes");
+    navigate("#/home");
     return;
   }
 
