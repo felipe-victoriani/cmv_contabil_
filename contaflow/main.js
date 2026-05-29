@@ -75,13 +75,13 @@ register("#/prazos", PrazosPage);
 register("#/documentos", DocumentosPage);
 
 // Guard de autenticação — watchAuthState já chama syncUsuario ao detectar login
-watchAuthState((user) => {
+watchAuthState(async (user) => {
   setState("user", user);
 
   const hash = window.location.hash || "#/clientes";
 
   if (user) {
-    mountTopbar(user);
+    await mountTopbar(user);
     startPrazosAlert();
     if (hash === "#/login") navigate("#/home");
     else resolveRoute();

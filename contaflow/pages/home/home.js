@@ -1,7 +1,7 @@
 /**
  * home.js — Dashboard Home do ContaFlow
  */
-import { injectCSS, removeCSS } from "../../utils/css.utils.js";
+import { injectCSS } from "../../utils/css.utils.js";
 import { getState, subscribe } from "../../store/app.store.js";
 import { formatDate, diasRestantes } from "../../utils/date.utils.js";
 import { getFraseAleatoria } from "../../utils/frases.utils.js";
@@ -27,7 +27,6 @@ export async function mount(container) {
 
 /** Remove a página Home. */
 export function unmount() {
-  removeCSS(CSS_ID);
   unsubs.forEach((fn) => fn());
   unsubs.length = 0;
 }

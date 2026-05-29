@@ -20,8 +20,8 @@ const NAV_ITEMS = [
  * Monta a topbar no container.
  * @param {import('firebase/auth').User} user
  */
-export function mount(user) {
-  injectCSS("components/topbar/topbar.css", CSS_ID);
+export async function mount(user) {
+  await injectCSS("components/topbar/topbar.css", CSS_ID);
   const root = document.getElementById("topbar-root");
   if (!root) return;
 

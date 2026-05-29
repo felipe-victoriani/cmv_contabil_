@@ -31,7 +31,7 @@ export function navigate(hash) {
 /**
  * Resolve a rota atual e monta a página correspondente.
  */
-function resolve() {
+async function resolve() {
   const hash = window.location.hash || "#/home";
   const page = routes[hash];
 
@@ -42,11 +42,10 @@ function resolve() {
 
   currentPage?.unmount?.();
   currentPage = page;
-  page.mount(container());
+  await page.mount(container());
 }
 
-window.addEventListener("hashchange", resolve);
-window.addEventListener("DOMContentLoaded", resolve);
+window.addEventListener("hashchange", () => resolve());
 
 /** Força resolução da rota atual (útil após login). */
 export function resolveRoute() {
