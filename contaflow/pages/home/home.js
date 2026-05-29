@@ -4,6 +4,7 @@
 import { injectCSS, removeCSS } from "../../utils/css.utils.js";
 import { getState, subscribe } from "../../store/app.store.js";
 import { formatDate, diasRestantes } from "../../utils/date.utils.js";
+import { getFraseAleatoria } from "../../utils/frases.utils.js";
 
 const CSS_ID = "css-home";
 const ALERT_DAYS = 3;
@@ -20,6 +21,7 @@ export function mount(container) {
   container.innerHTML = template();
   setDate();
   setGreeting();
+  setFrase();
   bindStoreListeners();
 }
 
@@ -40,6 +42,7 @@ function template() {
         <div class="home__greeting">
           <h1 class="home__title" id="home-title">Olá! ☀️</h1>
           <p class="home__date" id="home-date"></p>
+          <p class="home__frase" id="home-frase" aria-label="Frase do dia"></p>
         </div>
       </header>
 
@@ -191,6 +194,13 @@ function setGreeting() {
   el.textContent = nome
     ? `${periodo}, ${nome}! ${emoji}`
     : `${periodo}! ${emoji}`;
+}
+
+/** Exibe frase humorística sorteada aleatoriamente. */
+function setFrase() {
+  const el = document.getElementById("home-frase");
+  if (!el) return;
+  el.textContent = getFraseAleatoria();
 }
 
 /** Inscreve nos dados do store e dispara renderização inicial. */

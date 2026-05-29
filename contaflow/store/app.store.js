@@ -7,6 +7,7 @@ const state = {
   clientes: {},
   tarefas: {},
   prazos: {},
+  prazoTemplates: {},
   documentos: {},
   usuarios: {},
   user: null,

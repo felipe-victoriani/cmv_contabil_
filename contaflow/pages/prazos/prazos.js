@@ -7,6 +7,10 @@ import {
   atualizarPrazo,
   excluirPrazo,
   togglePrazo,
+  watchTemplates,
+  criarTemplate,
+  excluirTemplate,
+  gerarDoTemplates,
 } from "../../services/prazos.service.js";
 import { watchClientes } from "../../services/clientes.service.js";
 import { watchUsuarios } from "../../services/usuarios.service.js";
@@ -42,6 +46,7 @@ const TIPOS = [
 /** @type {function|null} */ let unsubPrazos = null;
 /** @type {function|null} */ let unsubClientes = null;
 /** @type {function|null} */ let unsubUsuarios = null;
+/** @type {function|null} */ let unsubTemplates = null;
 /** @type {string} */ let mesFiltro = mesAtual();
 /** @type {string} */ let filtroResponsavel = "";
 
@@ -69,6 +74,13 @@ export function mount(container) {
     renderFiltroResponsaveis(container);
     renderPrazos(container);
   });
+
+  unsubTemplates = watchTemplates((data) => {
+    setState("prazoTemplates", data);
+  });
+
+  // Auto-gera prazos do mês atual e do próximo com base nos templates
+  autoGerarMeses();
 }
 
 /** Remove a página de prazos. */
@@ -76,7 +88,8 @@ export function unmount() {
   unsubPrazos?.();
   unsubClientes?.();
   unsubUsuarios?.();
-  unsubPrazos = unsubClientes = unsubUsuarios = null;
+  unsubTemplates?.();
+  unsubPrazos = unsubClientes = unsubUsuarios = unsubTemplates = null;
   mesFiltro = mesAtual();
   filtroResponsavel = "";
 }
@@ -87,10 +100,16 @@ function templateShell() {
     <section class="prazos" aria-label="Prazos Fiscais">
       <header class="prazos__header">
         <h1 class="prazos__title">Prazos Fiscais</h1>
-        <button class="btn btn--primary" id="btn-novo-prazo" aria-label="Adicionar prazo">
-          <i class="ph ph-plus" aria-hidden="true"></i>
-          <span>Novo Prazo</span>
-        </button>
+        <div style="display:flex;gap:var(--space-2)">
+          <button class="btn btn--secondary" id="btn-templates" aria-label="Gerenciar templates recorrentes">
+            <i class="ph ph-repeat" aria-hidden="true"></i>
+            <span>Recorrentes</span>
+          </button>
+          <button class="btn btn--primary" id="btn-novo-prazo" aria-label="Adicionar prazo">
+            <i class="ph ph-plus" aria-hidden="true"></i>
+            <span>Novo Prazo</span>
+          </button>
+        </div>
       </header>
 
       <div class="prazos__nav" aria-label="Navegação por mês">
@@ -424,6 +443,10 @@ function bindPageEvents(container) {
     .querySelector("#btn-novo-prazo")
     .addEventListener("click", () => openPrazoModal());
 
+  container
+    .querySelector("#btn-templates")
+    .addEventListener("click", () => openTemplatesModal());
+
   container.querySelector("#btn-mes-prev").addEventListener("click", () => {
     mesFiltro = deslocarMes(mesFiltro, -1);
     renderPrazos(container);
@@ -440,4 +463,275 @@ function bindPageEvents(container) {
       filtroResponsavel = e.target.value;
       renderPrazos(container);
     });
+}
+
+// ── Templates recorrentes ───────────────────────────────
+
+/**
+ * Gera prazos silenciosamente para o mês atual e o próximo.
+ */
+async function autoGerarMeses() {
+  const atual = mesAtual();
+  const proximo = deslocarMes(atual, 1);
+  try {
+    const [n1, n2] = await Promise.all([
+      gerarDoTemplates(atual),
+      gerarDoTemplates(proximo),
+    ]);
+    const total = n1 + n2;
+    if (total > 0) {
+      showToast(
+        `${total} prazo${total > 1 ? "s" : ""} gerado${total > 1 ? "s" : ""} automaticamente.`,
+        "info",
+      );
+    }
+  } catch {
+    // Silencioso — não interrompe a página
+  }
+}
+
+/**
+ * Abre o modal de gerenciamento de templates recorrentes.
+ */
+function openTemplatesModal() {
+  const clientes = getState("clientes") || {};
+  const usuarios = getState("usuarios") || {};
+
+  const renderLista = () => {
+    const templates = getState("prazoTemplates") || {};
+    const entries = Object.entries(templates);
+    if (!entries.length) {
+      return `<p class="templates-empty">Nenhum template cadastrado.</p>`;
+    }
+    return entries
+      .map(([id, t]) => {
+        const clienteNome =
+          t.clienteId && clientes[t.clienteId]
+            ? clientes[t.clienteId].nome
+            : "Todos";
+        return `
+          <div class="template-item" data-id="${id}">
+            <div class="template-item__info">
+              <strong>${t.tipo}</strong> — dia <strong>${t.dia}</strong>
+              <span class="template-item__meta">${clienteNome}${t.obs ? ` · ${t.obs}` : ""}</span>
+            </div>
+            <button class="btn btn--ghost btn--sm template-item__del" data-id="${id}" aria-label="Excluir template">
+              <i class="ph ph-trash" aria-hidden="true"></i>
+            </button>
+          </div>
+        `;
+      })
+      .join("");
+  };
+
+  const body = `
+    <div id="templates-modal-body">
+      <div id="templates-lista" style="margin-bottom:var(--space-5)">
+        ${renderLista()}
+      </div>
+      <hr style="border:none;border-top:1px solid var(--color-border);margin-bottom:var(--space-5)">
+      <p style="font-size:var(--text-sm);font-weight:600;margin-bottom:var(--space-3);color:var(--color-muted);text-transform:uppercase;letter-spacing:.5px">Novo template</p>
+      <form id="form-template" novalidate>
+        <div class="form-grid">
+          <div class="form-group">
+            <label class="form-group__label" for="tmpl-tipo">Tipo *</label>
+            <select class="input" id="tmpl-tipo" name="tipo" required>
+              <option value="">Selecione...</option>
+              ${TIPOS.map((t) => `<option value="${t}">${t}</option>`).join("")}
+            </select>
+            <span class="form-group__error" id="err-tmpl-tipo" role="alert"></span>
+          </div>
+
+          <div class="form-group">
+            <label class="form-group__label" for="tmpl-dia">Dia do mês *</label>
+            <input class="input" type="number" id="tmpl-dia" name="dia"
+              min="1" max="31" placeholder="Ex: 20" required aria-describedby="err-tmpl-dia"/>
+            <span class="form-group__error" id="err-tmpl-dia" role="alert"></span>
+          </div>
+
+          <div class="form-group form-grid--full">
+            <label class="form-group__label" for="tmpl-cliente">Cliente</label>
+            <select class="input" id="tmpl-cliente" name="clienteId">
+              <option value="">Todos os clientes</option>
+              ${Object.entries(clientes)
+                .sort(([, a], [, b]) =>
+                  (a.nome || "").localeCompare(b.nome || ""),
+                )
+                .map(([cid, c]) => `<option value="${cid}">${c.nome}</option>`)
+                .join("")}
+            </select>
+          </div>
+
+          <div class="form-group form-grid--full">
+            <label class="form-group__label" for="tmpl-responsavel">Responsável</label>
+            <select class="input" id="tmpl-responsavel" name="responsavelId">
+              <option value="">Sem responsável</option>
+              ${Object.entries(usuarios)
+                .sort(([, a], [, b]) =>
+                  (a.nome || "").localeCompare(b.nome || ""),
+                )
+                .map(([uid, u]) => `<option value="${uid}">${u.nome}</option>`)
+                .join("")}
+            </select>
+          </div>
+
+          <div class="form-group form-grid--full">
+            <label class="form-group__label" for="tmpl-obs">Observação</label>
+            <input class="input" type="text" id="tmpl-obs" name="obs" placeholder="Ex: Competência anterior"/>
+          </div>
+        </div>
+        <button type="submit" class="btn btn--primary" style="margin-top:var(--space-3);width:100%">
+          <i class="ph ph-plus" aria-hidden="true"></i> Adicionar Template
+        </button>
+      </form>
+    </div>
+  `;
+
+  openModal({
+    title: "Prazos Recorrentes",
+    body,
+    size: "md",
+    actions: [
+      {
+        label: "Fechar",
+        cls: "btn--secondary",
+        action: ({ close }) => close(),
+      },
+    ],
+  });
+
+  // O modal é renderizado de forma síncrona — vincula eventos imediatamente
+  bindTemplatesModal();
+}
+
+/**
+ * Vincula eventos dentro do modal de templates.
+ */
+function bindTemplatesModal() {
+  // Excluir template
+  document.querySelectorAll(".template-item__del").forEach((btn) => {
+    btn.addEventListener("click", async () => {
+      const id = btn.dataset.id;
+      try {
+        await excluirTemplate(id);
+        showToast("Template removido.", "success");
+        // Re-renderiza a lista no modal
+        const lista = document.getElementById("templates-lista");
+        if (lista)
+          lista.innerHTML = (() => {
+            const templates = getState("prazoTemplates") || {};
+            const clientes = getState("clientes") || {};
+            const entries = Object.entries(templates);
+            if (!entries.length)
+              return `<p class="templates-empty">Nenhum template cadastrado.</p>`;
+            return entries
+              .map(([tid, t]) => {
+                const clienteNome =
+                  t.clienteId && clientes[t.clienteId]
+                    ? clientes[t.clienteId].nome
+                    : "Todos";
+                return `
+              <div class="template-item" data-id="${tid}">
+                <div class="template-item__info">
+                  <strong>${t.tipo}</strong> — dia <strong>${t.dia}</strong>
+                  <span class="template-item__meta">${clienteNome}${t.obs ? ` · ${t.obs}` : ""}</span>
+                </div>
+                <button class="btn btn--ghost btn--sm template-item__del" data-id="${tid}" aria-label="Excluir template">
+                  <i class="ph ph-trash" aria-hidden="true"></i>
+                </button>
+              </div>
+            `;
+              })
+              .join("");
+          })();
+        bindTemplatesModal();
+      } catch {
+        showToast("Erro ao remover template.", "error");
+      }
+    });
+  });
+
+  // Criar template
+  const form = document.getElementById("form-template");
+  if (!form) return;
+
+  form.addEventListener("submit", async (e) => {
+    e.preventDefault();
+
+    const tipo = form.elements["tipo"].value;
+    const dia = parseInt(form.elements["dia"].value, 10);
+    let hasError = false;
+
+    const setErr = (name, msg) => {
+      const err = document.getElementById(`err-tmpl-${name}`);
+      form.elements[name]
+        ?.closest(".form-group")
+        ?.classList.add("form-group--invalid");
+      if (err) err.textContent = msg;
+      hasError = true;
+    };
+
+    if (!tipo) setErr("tipo", "Tipo é obrigatório.");
+    if (!dia || dia < 1 || dia > 31)
+      setErr("dia", "Informe um dia entre 1 e 31.");
+    if (hasError) return;
+
+    const dados = {
+      tipo,
+      dia,
+      clienteId: form.elements["clienteId"].value,
+      responsavelId: form.elements["responsavelId"].value,
+      obs: form.elements["obs"].value.trim(),
+    };
+
+    const submitBtn = form.querySelector("[type=submit]");
+    submitBtn.disabled = true;
+
+    try {
+      await criarTemplate(dados);
+      showToast(
+        "Template criado! Prazos serão gerados automaticamente.",
+        "success",
+      );
+      // Gera imediatamente para mês atual e próximo
+      await Promise.all([
+        gerarDoTemplates(mesAtual()),
+        gerarDoTemplates(deslocarMes(mesAtual(), 1)),
+      ]);
+      form.reset();
+      // Re-renderiza lista
+      const lista = document.getElementById("templates-lista");
+      if (lista) {
+        const templates = getState("prazoTemplates") || {};
+        const clientes = getState("clientes") || {};
+        const entries = Object.entries(templates);
+        lista.innerHTML = !entries.length
+          ? `<p class="templates-empty">Nenhum template cadastrado.</p>`
+          : entries
+              .map(([tid, t]) => {
+                const clienteNome =
+                  t.clienteId && clientes[t.clienteId]
+                    ? clientes[t.clienteId].nome
+                    : "Todos";
+                return `
+                <div class="template-item" data-id="${tid}">
+                  <div class="template-item__info">
+                    <strong>${t.tipo}</strong> — dia <strong>${t.dia}</strong>
+                    <span class="template-item__meta">${clienteNome}${t.obs ? ` · ${t.obs}` : ""}</span>
+                  </div>
+                  <button class="btn btn--ghost btn--sm template-item__del" data-id="${tid}" aria-label="Excluir template">
+                    <i class="ph ph-trash" aria-hidden="true"></i>
+                  </button>
+                </div>
+              `;
+              })
+              .join("");
+        bindTemplatesModal();
+      }
+    } catch {
+      showToast("Erro ao criar template.", "error");
+    } finally {
+      submitBtn.disabled = false;
+    }
+  });
 }
