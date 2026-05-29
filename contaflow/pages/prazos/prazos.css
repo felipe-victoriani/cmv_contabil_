@@ -246,4 +246,13 @@
   .prazo-item__meta {
     gap: var(--space-2);
   }
+
+  /* Em touch, sempre mostrar as actions */
+  .prazo-item__actions {
+    opacity: 1;
+  }
+
+  .prazos__filtros .input {
+    max-width: 100%;
+  }
 }

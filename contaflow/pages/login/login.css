@@ -33,6 +33,16 @@
   padding: var(--space-10) var(--space-10) var(--space-8);
 }
 
+@media (max-width: 480px) {
+  .login__body {
+    padding: var(--space-6) var(--space-5) var(--space-6);
+  }
+
+  .login__title {
+    font-size: var(--text-2xl);
+  }
+}
+
 /* Header do card */
 .login__header {
   text-align: center;

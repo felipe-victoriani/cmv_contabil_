@@ -10,6 +10,27 @@
   min-height: calc(100vh - var(--topbar-height));
 }
 
+@media (max-width: 767px) {
+  .home {
+    padding: var(--space-4);
+    gap: var(--space-4);
+  }
+
+  .home__header {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .home__title {
+    font-size: var(--text-xl);
+  }
+
+  .home__frase {
+    max-width: 100%;
+    font-size: var(--text-xs);
+  }
+}
+
 /* ── Header ── */
 .home__header {
   display: flex;
@@ -57,6 +78,13 @@
   display: grid;
   grid-template-columns: repeat(4, 1fr);
   gap: var(--space-4);
+}
+
+@media (max-width: 767px) {
+  .home__kpis {
+    grid-template-columns: repeat(2, 1fr);
+    gap: var(--space-3);
+  }
 }
 
 .kpi-card {
@@ -115,6 +143,12 @@
   grid-template-columns: 1fr 320px;
   gap: var(--space-6);
   align-items: start;
+}
+
+@media (max-width: 1023px) {
+  .home__body {
+    grid-template-columns: 1fr;
+  }
 }
 
 .home__main {
@@ -245,6 +279,12 @@
   grid-template-columns: repeat(4, 1fr);
   padding: var(--space-4);
   gap: var(--space-3);
+}
+
+@media (max-width: 767px) {
+  .kanban-mini {
+    grid-template-columns: repeat(2, 1fr);
+  }
 }
 
 .kanban-mini__col {

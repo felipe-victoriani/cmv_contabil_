@@ -15,6 +15,7 @@
   justify-content: space-between;
   gap: var(--space-4);
   margin-bottom: var(--space-5);
+  flex-wrap: wrap;
 }
 
 .documentos__title {
@@ -29,6 +30,27 @@
   gap: var(--space-3);
   margin-bottom: var(--space-5);
   flex-wrap: wrap;
+}
+
+@media (max-width: 767px) {
+  .documentos {
+    padding: var(--space-4);
+  }
+
+  .documentos__header {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .documentos__filtros {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .documentos__filtro-sel {
+    min-width: unset;
+    width: 100%;
+  }
 }
 
 .documentos__busca {

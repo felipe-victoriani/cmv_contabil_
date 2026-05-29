@@ -118,4 +118,14 @@
   .modal__body .form-grid {
     grid-template-columns: 1fr;
   }
+
+  .modal-overlay {
+    padding: 0;
+    align-items: flex-end;
+  }
+
+  .modal {
+    border-radius: var(--radius-xl) var(--radius-xl) 0 0;
+    max-height: 92vh;
+  }
 }

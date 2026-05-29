@@ -291,4 +291,9 @@
     min-width: unset;
     flex: 1;
   }
+
+  /* Em touch, sempre mostrar as actions dos cards */
+  .kanban__card-actions {
+    opacity: 1;
+  }
 }
