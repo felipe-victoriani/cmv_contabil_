@@ -231,6 +231,19 @@ function bindStoreListeners() {
   renderAtividade();
 }
 
+// ── Utilitários ───────────────────────────────────────
+
+/**
+ * Converte um timestamp (ms) para string de data local "YYYY-MM-DD".
+ * @param {number|null|undefined} ts
+ * @returns {string|null}
+ */
+function toLocalDate(ts) {
+  if (!ts) return null;
+  const d = new Date(ts);
+  return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, "0")}-${String(d.getDate()).padStart(2, "0")}`;
+}
+
 // ── Renderizadores ─────────────────────────────────────
 
 /** KPI Cards — 4 números no topo. */
@@ -238,7 +251,8 @@ function renderKPIs() {
   const tarefas = getState("tarefas") || {};
   const prazos = getState("prazos") || {};
   const documentos = getState("documentos") || {};
-  const hoje = new Date().toISOString().slice(0, 10);
+  const _hoje = new Date();
+  const hoje = `${_hoje.getFullYear()}-${String(_hoje.getMonth() + 1).padStart(2, "0")}-${String(_hoje.getDate()).padStart(2, "0")}`;
 
   const prazosUrgentes = Object.values(prazos).filter((p) => {
     if (p.done) return false;
@@ -256,11 +270,10 @@ function renderKPIs() {
 
   const concluidasHoje = [
     ...Object.values(tarefas).filter(
-      (t) =>
-        t.status === "done" && t.atualizadoEm?.toString().slice(0, 10) === hoje,
+      (t) => t.status === "done" && toLocalDate(t.atualizadoEm) === hoje,
     ),
     ...Object.values(prazos).filter(
-      (p) => p.done && p.atualizadoEm?.toString().slice(0, 10) === hoje,
+      (p) => p.done && toLocalDate(p.atualizadoEm) === hoje,
     ),
   ].length;
 
@@ -285,8 +298,6 @@ function renderAlertas() {
   const prazos = getState("prazos") || {};
   const clientes = getState("clientes") || {};
   if (!list) return;
-
-  const hoje = new Date().toISOString().slice(0, 10);
 
   // Vencidos (até 2 mais recentes)
   const vencidos = Object.entries(prazos)

@@ -320,7 +320,7 @@ function bindDropZone(el, status) {
     el.classList.remove("kanban__col-cards--over");
     if (draggingId) {
       try {
-        await atualizarTarefa(draggingId, { status });
+        await atualizarTarefa(draggingId, { status, atualizadoEm: Date.now() });
       } catch {
         showToast("Erro ao mover tarefa.", "error");
       }
@@ -517,6 +517,7 @@ async function submitTarefa(close, id) {
 
   try {
     if (id) {
+      if (dados.status === "done") dados.atualizadoEm = Date.now();
       await atualizarTarefa(id, dados);
       showToast("Tarefa atualizada.", "success");
     } else {

@@ -61,7 +61,7 @@ export async function excluirPrazo(id) {
  * @returns {Promise}
  */
 export async function togglePrazo(id, done) {
-  return atualizarPrazo(id, { done });
+  return atualizarPrazo(id, { done, atualizadoEm: Date.now() });
 }
 
 // ── Templates de Prazos Recorrentes ───────────────────────

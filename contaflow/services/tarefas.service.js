@@ -63,5 +63,8 @@ export async function avancarStatus(id, statusAtual) {
   const ORDEM = ["todo", "doing", "waiting", "done"];
   const idx = ORDEM.indexOf(statusAtual);
   if (idx === -1 || idx === ORDEM.length - 1) return;
-  return atualizarTarefa(id, { status: ORDEM[idx + 1] });
+  return atualizarTarefa(id, {
+    status: ORDEM[idx + 1],
+    atualizadoEm: Date.now(),
+  });
 }
