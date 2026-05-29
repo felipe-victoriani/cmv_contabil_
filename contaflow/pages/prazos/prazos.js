@@ -26,6 +26,7 @@ import {
   urgenciaClass,
 } from "../../utils/date.utils.js";
 import { required } from "../../utils/validators.js";
+import { sanitize } from "../../utils/sanitize.utils.js";
 
 const CSS_ID = "css-prazos";
 
@@ -219,7 +220,7 @@ function renderPrazos(container) {
       <div class="card prazo-item prazo-item--${urgencia} ${p.done ? "prazo-item--done" : ""}"
            data-id="${id}"
            role="article"
-           aria-label="Prazo ${p.tipo}${p.done ? " — concluído" : ""}, ${urgLabel}">
+           aria-label="Prazo ${sanitize(p.tipo)}${p.done ? " — concluuído" : ""}, ${urgLabel}">
         <div class="prazo-item__left">
           <button class="prazo-item__check"
             data-id="${id}" data-done="${p.done ? "1" : "0"}"
@@ -230,7 +231,7 @@ function renderPrazos(container) {
 
           <div class="prazo-item__info">
             <div class="prazo-item__header">
-              <span class="prazo-item__tipo">${p.tipo}</span>
+              <span class="prazo-item__tipo">${sanitize(p.tipo)}</span>
               <span class="badge badge--${urgencia === "ok" ? "success" : urgencia === "done" ? "neutral" : urgencia === "warning" ? "warning" : "danger"}">
                 ${urgLabel}
               </span>
@@ -238,9 +239,9 @@ function renderPrazos(container) {
 
             <div class="prazo-item__meta">
               <span><i class="ph ph-calendar" aria-hidden="true"></i> ${formatDate(p.data)}</span>
-              ${cliente ? `<span><i class="ph ph-building-office" aria-hidden="true"></i> ${cliente.nome}</span>` : ""}
-              ${responsavel ? `<span><i class="ph ph-user" aria-hidden="true"></i> ${responsavel.nome}</span>` : ""}
-              ${p.obs ? `<span><i class="ph ph-note" aria-hidden="true"></i> ${p.obs}</span>` : ""}
+              ${cliente ? `<span><i class="ph ph-building-office" aria-hidden="true"></i> ${sanitize(cliente.nome)}</span>` : ""}
+              ${responsavel ? `<span><i class="ph ph-user" aria-hidden="true"></i> ${sanitize(responsavel.nome)}</span>` : ""}
+              ${p.obs ? `<span><i class="ph ph-note" aria-hidden="true"></i> ${sanitize(p.obs)}</span>` : ""}
             </div>
           </div>
         </div>

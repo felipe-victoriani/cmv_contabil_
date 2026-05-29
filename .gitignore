@@ -1,0 +1,20 @@
+# Credenciais Firebase — NUNCA commitar com chaves reais
+contaflow/config/firebase.js
+
+# Variáveis de ambiente
+*.env
+.env.*
+
+# Sistema operacional
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Node
+node_modules/
+npm-debug.log*
+
+# Editor
+.vscode/settings.json
+*.swp
+*.swo

@@ -15,6 +15,7 @@ import { openModal, openConfirmModal } from "../../components/modal/modal.js";
 import { injectCSS, removeCSS } from "../../utils/css.utils.js";
 import { formatCompetencia } from "../../utils/date.utils.js";
 import { required } from "../../utils/validators.js";
+import { sanitize } from "../../utils/sanitize.utils.js";
 
 const CSS_ID = "css-documentos";
 
@@ -206,8 +207,8 @@ function renderTabela(container) {
 
       return `
       <tr class="docs-row" data-id="${id}">
-        <td class="docs-row__nome">${d.nome || "—"}</td>
-        <td>${cliente?.nome || "—"}</td>
+        <td class="docs-row__nome">${sanitize(d.nome || "—")}</td>
+        <td>${sanitize(cliente?.nome || "—")}</td>
         <td>${formatCompetencia(d.competencia)}</td>
         <td>
           <button class="badge ${STATUS_BADGE[d.status]} docs-status-btn"
@@ -219,7 +220,7 @@ function renderTabela(container) {
             ${nextLabel ? '<i class="ph ph-arrow-right" aria-hidden="true"></i>' : ""}
           </button>
         </td>
-        <td class="docs-row__obs">${d.obs || "—"}</td>
+        <td class="docs-row__obs">${sanitize(d.obs || "—")}</td>
         <td class="docs-row__actions">
           <button class="btn btn--ghost btn--sm docs-edit" data-id="${id}" aria-label="Editar documento">
             <i class="ph ph-pencil-simple" aria-hidden="true"></i>

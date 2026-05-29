@@ -5,6 +5,7 @@ import { injectCSS } from "../../utils/css.utils.js";
 import { getState, subscribe } from "../../store/app.store.js";
 import { formatDate, diasRestantes } from "../../utils/date.utils.js";
 import { getFraseAleatoria } from "../../utils/frases.utils.js";
+import { sanitize } from "../../utils/sanitize.utils.js";
 
 const CSS_ID = "css-home";
 const ALERT_DAYS = 3;
@@ -335,8 +336,8 @@ function renderAlertas() {
       return `
         <div class="alerta-item" role="listitem">
           <span class="alerta-item__badge alerta-item__badge--${mod}">${label}</span>
-          <span class="alerta-item__tipo">${p.tipo || p.descricao || "—"}</span>
-          <span class="alerta-item__cliente">${clienteNome}</span>
+          <span class="alerta-item__tipo">${sanitize(p.tipo || p.descricao || "—")}</span>
+          <span class="alerta-item__cliente">${sanitize(clienteNome)}</span>
           <a href="#/prazos" class="alerta-item__link" aria-label="Ver prazo">
             <i class="ph ph-arrow-right" aria-hidden="true"></i>
           </a>
@@ -391,7 +392,7 @@ function renderDocsPendentes() {
       const nome = clientes[clienteId]?.nome || "Cliente";
       return `
         <li class="docs-pendentes-item">
-          <span class="docs-pendentes-item__nome">${nome}</span>
+          <span class="docs-pendentes-item__nome">${sanitize(nome)}</span>
           <span class="docs-pendentes-item__badge">${count} doc${count > 1 ? "s" : ""}</span>
         </li>
       `;
@@ -441,7 +442,7 @@ function renderAtividade() {
       <li class="atividade-item">
         <i class="ph ${e.icon} atividade-item__icon" aria-hidden="true"></i>
         <div>
-          <span class="atividade-item__texto">${e.texto}</span>
+          <span class="atividade-item__texto">${sanitize(e.texto)}</span>
           <span class="atividade-item__meta">${e.tipo} · ${formatRelativeTime(e.ts)}</span>
         </div>
       </li>

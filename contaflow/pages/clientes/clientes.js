@@ -21,6 +21,7 @@ import {
   required,
 } from "../../utils/validators.js";
 import { formatDate } from "../../utils/date.utils.js";
+import { sanitize } from "../../utils/sanitize.utils.js";
 
 const CSS_ID = "css-clientes";
 
@@ -163,8 +164,8 @@ function renderCards(container) {
         <div class="cliente-card__header">
           <div class="cliente-card__avatar" aria-hidden="true">${(c.nome || "?")[0].toUpperCase()}</div>
           <div class="cliente-card__info">
-            <h2 class="cliente-card__nome">${c.nome || "—"}</h2>
-            <span class="badge badge--neutral cliente-card__regime">${c.regime || "—"}</span>
+            <h2 class="cliente-card__nome">${sanitize(c.nome || "—")}</h2>
+            <span class="badge badge--neutral cliente-card__regime">${sanitize(c.regime || "—")}</span>
           </div>
           <div class="cliente-card__menu-wrap">
             <button class="btn btn--ghost btn--sm cliente-card__menu-btn"
@@ -178,10 +179,10 @@ function renderCards(container) {
         </div>
 
         <div class="cliente-card__details">
-          ${c.cnpj ? `<span class="cliente-card__detail"><i class="ph ph-identification-card" aria-hidden="true"></i>${c.cnpj}</span>` : ""}
-          ${c.responsavel ? `<span class="cliente-card__detail"><i class="ph ph-user" aria-hidden="true"></i>${c.responsavel}</span>` : ""}
-          ${c.tel ? `<span class="cliente-card__detail"><i class="ph ph-phone" aria-hidden="true"></i>${c.tel}</span>` : ""}
-          ${c.email ? `<span class="cliente-card__detail"><i class="ph ph-envelope" aria-hidden="true"></i>${c.email}</span>` : ""}
+          ${c.cnpj ? `<span class="cliente-card__detail"><i class="ph ph-identification-card" aria-hidden="true"></i>${sanitize(c.cnpj)}</span>` : ""}
+          ${c.responsavel ? `<span class="cliente-card__detail"><i class="ph ph-user" aria-hidden="true"></i>${sanitize(c.responsavel)}</span>` : ""}
+          ${c.tel ? `<span class="cliente-card__detail"><i class="ph ph-phone" aria-hidden="true"></i>${sanitize(c.tel)}</span>` : ""}
+          ${c.email ? `<span class="cliente-card__detail"><i class="ph ph-envelope" aria-hidden="true"></i>${sanitize(c.email)}</span>` : ""}
         </div>
 
         <div class="cliente-card__badges">

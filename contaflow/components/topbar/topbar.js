@@ -33,7 +33,7 @@ export async function mount(user) {
         <button class="topbar__hamburger" aria-label="Abrir menu" aria-expanded="false" aria-controls="topbar-nav">
           <i class="ph ph-list" aria-hidden="true"></i>
         </button>
-        <a href="#/clientes" class="topbar__logo" aria-label="CMV Contabilidade — ir para início">
+        <a href="#/home" class="topbar__logo" aria-label="CMV Contabilidade — ir para início">
           <i class="ph-bold ph-ledger" aria-hidden="true"></i>
           <span>CMV Contabilidade</span>
         </a>

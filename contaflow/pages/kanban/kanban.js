@@ -16,6 +16,7 @@ import { openModal, openConfirmModal } from "../../components/modal/modal.js";
 import { injectCSS, removeCSS } from "../../utils/css.utils.js";
 import { formatDate, diasRestantes } from "../../utils/date.utils.js";
 import { required } from "../../utils/validators.js";
+import { sanitize } from "../../utils/sanitize.utils.js";
 
 const CSS_ID = "css-kanban";
 
@@ -219,9 +220,9 @@ function renderBoard(container) {
              data-id="${id}"
              draggable="true"
              role="article"
-             aria-label="Tarefa: ${t.titulo}${atrasado ? " — atrasada" : ""}">
+             aria-label="Tarefa: ${sanitize(t.titulo)}${atrasado ? " — atrasada" : ""}">
           <div class="kanban__card-header">
-            <p class="kanban__card-titulo">${t.titulo || "—"}</p>
+            <p class="kanban__card-titulo">${sanitize(t.titulo || "—")}</p>
             <div class="kanban__card-actions">
               ${
                 proxCol
@@ -250,7 +251,7 @@ function renderBoard(container) {
               ? `
             <span class="kanban__card-cliente">
               <i class="ph ph-building-office" aria-hidden="true"></i>
-              ${cliente.nome}
+              ${sanitize(cliente.nome)}
             </span>
           `
               : ""
@@ -271,7 +272,7 @@ function renderBoard(container) {
 
           ${
             t.descricao
-              ? `<p class="kanban__card-desc">${t.descricao}</p>
+              ? `<p class="kanban__card-desc">${sanitize(t.descricao)}</p>
             <div class="kanban__card-expand-hint" aria-hidden="true">
               <i class="ph ph-caret-down"></i>
             </div>`
@@ -283,7 +284,7 @@ function renderBoard(container) {
               ? `
             <span class="kanban__card-responsavel">
               <i class="ph ph-user" aria-hidden="true"></i>
-              ${responsavel.nome}
+              ${sanitize(responsavel.nome)}
             </span>
           `
               : ""
