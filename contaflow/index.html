@@ -23,13 +23,24 @@
     <link rel="icon" type="image/svg+xml" href="images/favicon.svg" />
     <title>CMV Contabilidade</title>
 
-    <!-- Fontes -->
+    <!-- Fontes (não-bloqueante: não trava render no mobile em conexões lentas) -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
+      rel="preload"
+      as="style"
       href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;1,9..40,400&display=swap"
-      rel="stylesheet"
+      onload="
+        this.onload = null;
+        this.rel = 'stylesheet';
+      "
     />
+    <noscript>
+      <link
+        href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;1,9..40,400&display=swap"
+        rel="stylesheet"
+      />
+    </noscript>
 
     <!-- Phosphor Icons (carregamento não-bloqueante para não travar render no mobile) -->
     <link
@@ -160,26 +171,24 @@
         clearTimeout(_loadTimeout);
       };
 
-      // Captura erros globais de JavaScript (módulos, runtime, etc.)
-      window.addEventListener("error", function (e) {
-        var overlay = document.getElementById("app-loading");
-        if (!overlay) return;
-        clearTimeout(_loadTimeout);
-        var spinner = document.getElementById("app-loading__spinner");
-        var msg = document.getElementById("app-loading__msg");
-        if (spinner) spinner.style.display = "none";
-        if (msg) msg.style.display = "flex";
-      });
-
-      window.addEventListener("unhandledrejection", function (e) {
-        var overlay = document.getElementById("app-loading");
-        if (!overlay) return;
-        clearTimeout(_loadTimeout);
-        var spinner = document.getElementById("app-loading__spinner");
-        var msg = document.getElementById("app-loading__msg");
-        if (spinner) spinner.style.display = "none";
-        if (msg) msg.style.display = "flex";
-      });
+      // Captura apenas erros reais de JavaScript (runtime/módulo).
+      // IGNORA erros de carregamento de recursos (CSS, imagens, fontes, scripts externos)
+      // pois eles também disparam 'error' na window e causariam falso positivo no mobile.
+      window.addEventListener(
+        "error",
+        function (e) {
+          // e.target !== window indica erro de recurso (img, link, script) — ignorar
+          if (e.target && e.target !== window) return;
+          var overlay = document.getElementById("app-loading");
+          if (!overlay) return;
+          clearTimeout(_loadTimeout);
+          var spinner = document.getElementById("app-loading__spinner");
+          var msg = document.getElementById("app-loading__msg");
+          if (spinner) spinner.style.display = "none";
+          if (msg) msg.style.display = "flex";
+        },
+        true,
+      ); // capture=true para pegar erros de módulo também
     </script>
 
     <div id="toast-root" aria-live="polite" aria-atomic="false"></div>
