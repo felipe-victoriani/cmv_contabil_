@@ -31,15 +31,61 @@
       rel="stylesheet"
     />
 
-    <!-- Phosphor Icons (web font — sem re-processamento de DOM) -->
+    <!-- Phosphor Icons (carregamento não-bloqueante para não travar render no mobile) -->
     <link
-      rel="stylesheet"
+      rel="preload"
+      as="style"
       href="https://unpkg.com/@phosphor-icons/web@2.1.1/src/regular/style.css"
+      onload="
+        this.onload = null;
+        this.rel = 'stylesheet';
+      "
     />
     <link
-      rel="stylesheet"
+      rel="preload"
+      as="style"
       href="https://unpkg.com/@phosphor-icons/web@2.1.1/src/bold/style.css"
+      onload="
+        this.onload = null;
+        this.rel = 'stylesheet';
+      "
     />
+    <noscript>
+      <link
+        rel="stylesheet"
+        href="https://unpkg.com/@phosphor-icons/web@2.1.1/src/regular/style.css"
+      />
+      <link
+        rel="stylesheet"
+        href="https://unpkg.com/@phosphor-icons/web@2.1.1/src/bold/style.css"
+      />
+    </noscript>
+
+    <!-- Loading state inline: visível antes de qualquer CSS externo carregar -->
+    <style>
+      #app-loading {
+        position: fixed;
+        inset: 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: #f5f2ed;
+        z-index: 9999;
+      }
+      #app-loading__spinner {
+        width: 44px;
+        height: 44px;
+        border: 3px solid #e2ddd7;
+        border-top-color: #2d6a4f;
+        border-radius: 50%;
+        animation: _ld-spin 0.75s linear infinite;
+      }
+      @keyframes _ld-spin {
+        to {
+          transform: rotate(360deg);
+        }
+      }
+    </style>
 
     <!-- Estilos globais -->
     <link rel="stylesheet" href="styles/reset.css" />
@@ -54,6 +100,11 @@
     <div id="app">
       <div id="topbar-root"></div>
       <main id="page-root"></main>
+    </div>
+
+    <!-- Overlay de carregamento: removido pelo main.js após auth inicializar -->
+    <div id="app-loading" role="status" aria-label="Carregando aplicação">
+      <div id="app-loading__spinner"></div>
     </div>
 
     <div id="toast-root" aria-live="polite" aria-atomic="false"></div>

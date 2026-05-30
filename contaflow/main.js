@@ -109,6 +109,9 @@ register("#/documentos", DocumentosPage);
 watchAuthState(async (user) => {
   setState("user", user);
 
+  // Remove o overlay de loading agora que o estado de auth é conhecido
+  document.getElementById("app-loading")?.remove();
+
   const hash = window.location.hash || "#/clientes";
 
   if (user) {

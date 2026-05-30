@@ -4,7 +4,7 @@
    Network-first para Firebase/APIs externas.
    ============================================= */
 
-const CACHE_NAME = "contaflow-v1";
+const CACHE_NAME = "contaflow-v2";
 
 const STATIC_ASSETS = [
   "/",
