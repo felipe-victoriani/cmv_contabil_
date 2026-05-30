@@ -106,24 +106,37 @@ register("#/prazos", PrazosPage);
 register("#/documentos", DocumentosPage);
 
 // Guard de autenticação — watchAuthState já chama syncUsuario ao detectar login
-watchAuthState(async (user) => {
-  setState("user", user);
+try {
+  watchAuthState(async (user) => {
+    setState("user", user);
 
-  // Remove o overlay de loading agora que o estado de auth é conhecido
-  document.getElementById("app-loading")?.remove();
+    // Remove o overlay de loading e cancela o timeout de segurança
+    window._clearLoadTimeout?.();
+    document.getElementById("app-loading")?.remove();
 
-  const hash = window.location.hash || "#/clientes";
+    const hash = window.location.hash || "#/clientes";
 
-  if (user) {
-    await mountTopbar(user);
-    startGlobalWatchers();
-    startPrazosAlert();
-    if (hash === "#/login") navigate("#/home");
-    else resolveRoute();
-  } else {
-    stopGlobalWatchers();
-    stopPrazosAlert();
-    unmountTopbar();
-    navigate("#/login");
+    if (user) {
+      await mountTopbar(user);
+      startGlobalWatchers();
+      startPrazosAlert();
+      if (hash === "#/login") navigate("#/home");
+      else resolveRoute();
+    } else {
+      stopGlobalWatchers();
+      stopPrazosAlert();
+      unmountTopbar();
+      navigate("#/login");
+    }
+  });
+} catch (err) {
+  // Erro ao inicializar (ex: Firebase CDN indisponível) — mostra mensagem ao usuário
+  window._clearLoadTimeout?.();
+  const overlay = document.getElementById("app-loading");
+  if (overlay) {
+    const spinner = document.getElementById("app-loading__spinner");
+    const msg = document.getElementById("app-loading__msg");
+    if (spinner) spinner.style.display = "none";
+    if (msg) msg.style.display = "flex";
   }
-});
+}

@@ -67,8 +67,10 @@
         position: fixed;
         inset: 0;
         display: flex;
+        flex-direction: column;
         align-items: center;
         justify-content: center;
+        gap: 16px;
         background: #f5f2ed;
         z-index: 9999;
       }
@@ -84,6 +86,32 @@
         to {
           transform: rotate(360deg);
         }
+      }
+      #app-loading__msg {
+        display: none;
+        flex-direction: column;
+        align-items: center;
+        gap: 12px;
+        text-align: center;
+        font-family: sans-serif;
+        color: #1a1814;
+        padding: 0 24px;
+      }
+      #app-loading__msg p {
+        font-size: 14px;
+        color: #7a7570;
+        max-width: 280px;
+        line-height: 1.5;
+      }
+      #app-loading__retry {
+        padding: 10px 24px;
+        background: #2d6a4f;
+        color: #fff;
+        border-radius: 10px;
+        font-size: 14px;
+        font-weight: 600;
+        cursor: pointer;
+        border: none;
       }
     </style>
 
@@ -105,7 +133,54 @@
     <!-- Overlay de carregamento: removido pelo main.js após auth inicializar -->
     <div id="app-loading" role="status" aria-label="Carregando aplicação">
       <div id="app-loading__spinner"></div>
+      <div id="app-loading__msg" role="alert">
+        <p>
+          Não foi possível conectar.<br />Verifique sua internet e tente
+          novamente.
+        </p>
+        <button id="app-loading__retry" onclick="location.reload()">
+          Tentar novamente
+        </button>
+      </div>
     </div>
+
+    <script>
+      // Timeout de segurança: se o app não carregar em 15s, exibe mensagem de erro
+      var _loadTimeout = setTimeout(function () {
+        var overlay = document.getElementById("app-loading");
+        if (!overlay) return;
+        var spinner = document.getElementById("app-loading__spinner");
+        var msg = document.getElementById("app-loading__msg");
+        if (spinner) spinner.style.display = "none";
+        if (msg) msg.style.display = "flex";
+      }, 15000);
+
+      // Limpa o timeout quando o app carrega com sucesso
+      window._clearLoadTimeout = function () {
+        clearTimeout(_loadTimeout);
+      };
+
+      // Captura erros globais de JavaScript (módulos, runtime, etc.)
+      window.addEventListener("error", function (e) {
+        var overlay = document.getElementById("app-loading");
+        if (!overlay) return;
+        clearTimeout(_loadTimeout);
+        var spinner = document.getElementById("app-loading__spinner");
+        var msg = document.getElementById("app-loading__msg");
+        if (spinner) spinner.style.display = "none";
+        if (msg) msg.style.display = "flex";
+      });
+
+      window.addEventListener("unhandledrejection", function (e) {
+        var overlay = document.getElementById("app-loading");
+        if (!overlay) return;
+        clearTimeout(_loadTimeout);
+        var spinner = document.getElementById("app-loading__spinner");
+        var msg = document.getElementById("app-loading__msg");
+        if (spinner) spinner.style.display = "none";
+        if (msg) msg.style.display = "flex";
+      });
+    </script>
 
     <div id="toast-root" aria-live="polite" aria-atomic="false"></div>
     <div id="modal-root"></div>
