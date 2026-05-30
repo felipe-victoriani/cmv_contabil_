@@ -14,7 +14,7 @@ const ALERT_DAYS = 3;
 /** @type {Array<function>} Unsubscribers dos listeners do store */
 const unsubs = [];
 
-const SESSION_KEY_NOTIF = "cf_notif_atrasadas_exibida";
+const SESSION_KEY_NOTIF = "cf_notif_atrasadas_";
 
 /**
  * Monta a página Home.
@@ -462,14 +462,16 @@ function renderAtividade() {
  * com vencimento passado e status diferente de "done".
  */
 function notificarTarefasAtrasadas() {
-  if (sessionStorage.getItem(SESSION_KEY_NOTIF)) return;
+  const uid = getState("user")?.uid || "anon";
+  const key = SESSION_KEY_NOTIF + uid;
+  if (sessionStorage.getItem(key)) return;
   const tarefas = getState("tarefas") || {};
   const atrasadas = Object.values(tarefas).filter((t) => {
     if (t.status === "done" || !t.vencimento) return false;
     return diasRestantes(t.vencimento) < 0;
   });
   if (!atrasadas.length) return;
-  sessionStorage.setItem(SESSION_KEY_NOTIF, "1");
+  sessionStorage.setItem(key, "1");
   const qtd = atrasadas.length;
   showToast(
     `${qtd} tarefa${qtd > 1 ? "s" : ""} com prazo vencido — <a href="#/kanban" style="color:inherit;font-weight:600;text-decoration:underline">Ver no Kanban</a>`,
