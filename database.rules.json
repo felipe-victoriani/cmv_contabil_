@@ -1,6 +1,30 @@
 {
   "rules": {
-    ".read": "auth != null",
-    ".write": "auth != null"
+    "usuarios": {
+      ".read": "auth != null",
+      "$uid": {
+        ".write": "auth != null && auth.uid === $uid"
+      }
+    },
+    "clientes": {
+      ".read": "auth != null",
+      ".write": "auth != null"
+    },
+    "documentos": {
+      ".read": "auth != null",
+      ".write": "auth != null"
+    },
+    "prazos": {
+      ".read": "auth != null",
+      ".write": "auth != null"
+    },
+    "prazo_templates": {
+      ".read": "auth != null",
+      ".write": "auth != null"
+    },
+    "tarefas": {
+      ".read": "auth != null",
+      ".write": "auth != null"
+    }
   }
 }

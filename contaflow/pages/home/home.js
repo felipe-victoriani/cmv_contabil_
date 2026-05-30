@@ -6,12 +6,15 @@ import { getState, subscribe } from "../../store/app.store.js";
 import { formatDate, diasRestantes } from "../../utils/date.utils.js";
 import { getFraseAleatoria } from "../../utils/frases.utils.js";
 import { sanitize } from "../../utils/sanitize.utils.js";
+import { showToast } from "../../components/toast/toast.js";
 
 const CSS_ID = "css-home";
 const ALERT_DAYS = 3;
 
 /** @type {Array<function>} Unsubscribers dos listeners do store */
 const unsubs = [];
+
+const SESSION_KEY_NOTIF = "cf_notif_atrasadas_exibida";
 
 /**
  * Monta a página Home.
@@ -213,6 +216,7 @@ function bindStoreListeners() {
     subscribe("tarefas", () => {
       renderKanbanMini();
       renderKPIs();
+      notificarTarefasAtrasadas();
     }),
     subscribe("documentos", () => {
       renderDocsPendentes();
@@ -449,6 +453,29 @@ function renderAtividade() {
     `,
     )
     .join("");
+}
+
+// ── Notificações ───────────────────────────────────────
+
+/**
+ * Exibe um toast de aviso uma única vez por montagem quando há tarefas
+ * com vencimento passado e status diferente de "done".
+ */
+function notificarTarefasAtrasadas() {
+  if (sessionStorage.getItem(SESSION_KEY_NOTIF)) return;
+  const tarefas = getState("tarefas") || {};
+  const atrasadas = Object.values(tarefas).filter((t) => {
+    if (t.status === "done" || !t.vencimento) return false;
+    return diasRestantes(t.vencimento) < 0;
+  });
+  if (!atrasadas.length) return;
+  sessionStorage.setItem(SESSION_KEY_NOTIF, "1");
+  const qtd = atrasadas.length;
+  showToast(
+    `${qtd} tarefa${qtd > 1 ? "s" : ""} com prazo vencido — <a href="#/kanban" style="color:inherit;font-weight:600;text-decoration:underline">Ver no Kanban</a>`,
+    "warning",
+    7000,
+  );
 }
 
 // ── Helpers ────────────────────────────────────────────
