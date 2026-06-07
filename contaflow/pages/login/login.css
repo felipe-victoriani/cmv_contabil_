@@ -7,7 +7,21 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  background: #0d1730;
+  background-color: #0d1730;
+  background-image:
+    radial-gradient(
+      ellipse 60% 40% at 50% -10%,
+      rgba(45, 106, 79, 0.25) 0%,
+      transparent 70%
+    ),
+    radial-gradient(
+      circle at 1px 1px,
+      rgba(255, 255, 255, 0.055) 1px,
+      transparent 0
+    );
+  background-size:
+    auto,
+    28px 28px;
   padding: var(--space-8) var(--space-4);
 }
 

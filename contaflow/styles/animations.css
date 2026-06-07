@@ -53,6 +53,36 @@
   }
 }
 
+@keyframes scale-in {
+  from {
+    transform: scale(0.92);
+    opacity: 0;
+  }
+  to {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+@keyframes shake {
+  0%,
+  100% {
+    transform: translateX(0);
+  }
+  20% {
+    transform: translateX(-5px);
+  }
+  40% {
+    transform: translateX(5px);
+  }
+  60% {
+    transform: translateX(-3px);
+  }
+  80% {
+    transform: translateX(3px);
+  }
+}
+
 @keyframes spin {
   to {
     transform: rotate(360deg);
@@ -72,10 +102,25 @@
   animation: slide-in-right var(--transition-slow) forwards;
 }
 
-/* Skeleton */
+/* Skeleton com efeito shimmer (mais premium que pulse simples) */
+@keyframes skeleton-shimmer {
+  from {
+    background-position: -200% center;
+  }
+  to {
+    background-position: 200% center;
+  }
+}
+
 .skeleton {
-  animation: skeleton-pulse 1.5s ease infinite;
-  background: var(--color-border);
+  background: linear-gradient(
+    90deg,
+    var(--color-border) 25%,
+    color-mix(in srgb, var(--color-border) 40%, var(--color-surface)) 50%,
+    var(--color-border) 75%
+  );
+  background-size: 200% 100%;
+  animation: skeleton-shimmer 1.5s ease infinite;
   border-radius: var(--radius-sm);
 }
 
@@ -88,6 +133,23 @@
   border-top-color: var(--color-primary);
   border-radius: 50%;
   animation: spin 600ms linear infinite;
+}
+
+/* Utilitários de stagger para listas animadas */
+.stagger-1 {
+  animation-delay: 60ms;
+}
+.stagger-2 {
+  animation-delay: 120ms;
+}
+.stagger-3 {
+  animation-delay: 180ms;
+}
+.stagger-4 {
+  animation-delay: 240ms;
+}
+.stagger-5 {
+  animation-delay: 300ms;
 }
 
 /* Respeitar preferência do usuário */

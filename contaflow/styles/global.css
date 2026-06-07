@@ -30,10 +30,13 @@
     font-size: var(--text-sm);
     font-weight: 500;
     font-family: var(--font-body);
+    cursor: pointer;
     transition:
       background var(--transition-base),
       color var(--transition-base),
-      border-color var(--transition-base);
+      border-color var(--transition-base),
+      transform 60ms ease,
+      box-shadow var(--transition-base);
     white-space: nowrap;
   }
 
@@ -90,10 +93,29 @@
     font-size: var(--text-base);
   }
 
+  .btn:not(:disabled):active {
+    transform: scale(0.97);
+    transition-duration: 60ms;
+  }
+
   .btn:disabled {
     opacity: 0.5;
     cursor: not-allowed;
     pointer-events: none;
+  }
+
+  /* Botão ícone quadrado */
+  .btn--icon {
+    width: 36px;
+    height: 36px;
+    padding: 0;
+    justify-content: center;
+    flex-shrink: 0;
+  }
+
+  .btn--icon.btn--sm {
+    width: 28px;
+    height: 28px;
   }
 
   /* Inputs base */
@@ -204,6 +226,19 @@
     border: 1px solid var(--color-border);
   }
 
+  /* Link */
+  .link {
+    color: var(--color-primary);
+    font-weight: 500;
+    cursor: pointer;
+    transition: opacity var(--transition-fast);
+  }
+
+  .link:hover {
+    opacity: 0.75;
+    text-decoration: underline;
+  }
+
   /* Card */
   .card {
     background: var(--color-surface);
@@ -211,6 +246,12 @@
     border-radius: var(--radius-lg);
     padding: var(--space-4);
     box-shadow: var(--shadow-sm);
+    transition: box-shadow var(--transition-base);
+  }
+
+  .card--interactive:hover {
+    box-shadow: var(--shadow-md);
+    cursor: pointer;
   }
 
   /* Divider */
@@ -270,6 +311,41 @@
   :focus-visible {
     outline: 2px solid var(--color-primary);
     outline-offset: 2px;
+  }
+
+  /* Page header utilitário */
+  .page-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--space-4);
+    margin-bottom: var(--space-6);
+    flex-wrap: wrap;
+  }
+
+  .page-header__title {
+    font-family: var(--font-display);
+    font-size: var(--text-2xl);
+    color: var(--color-ink);
+    letter-spacing: -0.3px;
+  }
+
+  .page-header__actions {
+    display: flex;
+    align-items: center;
+    gap: var(--space-3);
+    flex-wrap: wrap;
+  }
+
+  @media (max-width: 767px) {
+    .page-header {
+      flex-direction: column;
+      align-items: flex-start;
+    }
+
+    .page-header__actions {
+      width: 100%;
+    }
   }
 
   /* Touch target mínimo (Apple HIG: 44px) */

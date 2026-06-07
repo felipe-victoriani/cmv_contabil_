@@ -103,6 +103,8 @@
 .kanban__col-cards--over {
   background: var(--color-primary-lt);
   border-radius: 0 0 var(--radius-lg) var(--radius-lg);
+  outline: 2px dashed var(--color-primary);
+  outline-offset: -4px;
 }
 
 /* Empty */
