@@ -46,22 +46,33 @@
   }
 
   .btn--primary {
-    background: var(--color-primary);
+    background: var(--gradient-primary);
     color: #fff;
+    box-shadow: 0 2px 8px
+      color-mix(in srgb, var(--color-primary) 35%, transparent);
   }
 
   .btn--primary:hover {
     background: var(--color-primary-dk);
+    box-shadow: 0 4px 14px
+      color-mix(in srgb, var(--color-primary) 45%, transparent);
+    transform: translateY(-1px);
   }
 
   .btn--secondary {
     background: var(--color-surface);
     color: var(--color-ink);
     border: 1px solid var(--color-border);
+    cursor: pointer;
   }
 
   .btn--secondary:hover {
     background: var(--color-bg);
+    border-color: color-mix(
+      in srgb,
+      var(--color-border) 60%,
+      var(--color-muted)
+    );
   }
 
   .btn--danger {
@@ -246,12 +257,24 @@
     border-radius: var(--radius-lg);
     padding: var(--space-4);
     box-shadow: var(--shadow-sm);
-    transition: box-shadow var(--transition-base);
+    transition:
+      box-shadow var(--transition-base),
+      transform var(--transition-base),
+      border-color var(--transition-base);
+  }
+
+  .card--interactive {
+    cursor: pointer;
   }
 
   .card--interactive:hover {
     box-shadow: var(--shadow-md);
-    cursor: pointer;
+    border-color: color-mix(
+      in srgb,
+      var(--color-border) 60%,
+      var(--color-primary)
+    );
+    transform: translateY(-2px);
   }
 
   /* Divider */
