@@ -94,8 +94,7 @@
   animation: fade-in var(--transition-modal) forwards;
 }
 .modal {
-  animation: slide-up var(--transition-modal) cubic-bezier(0.16, 1, 0.3, 1)
-    forwards;
+  animation: slide-up var(--transition-modal) forwards;
 }
 
 /* Toast */
@@ -158,9 +157,7 @@
   *,
   *::before,
   *::after {
-    animation-duration: 0.01ms !important;
-    animation-iteration-count: 1 !important;
-    transition-duration: 0.01ms !important;
-    scroll-behavior: auto !important;
+    animation-duration: 1ms !important;
+    transition-duration: 1ms !important;
   }
 }

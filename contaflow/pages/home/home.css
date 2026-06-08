@@ -67,11 +67,10 @@
   margin-top: var(--space-3);
   max-width: 560px;
   line-height: 1.6;
-  background: var(--color-primary-lt);
+  background: color-mix(in srgb, var(--color-primary) 8%, transparent);
   border-left: 3px solid var(--color-primary);
   border-radius: 0 var(--radius-md) var(--radius-md) 0;
   padding: var(--space-2) var(--space-4);
-  transition: background var(--transition-base);
 }
 
 /* ── KPI Cards ── */
@@ -99,26 +98,14 @@
   border-top: 3px solid transparent;
   transition:
     box-shadow var(--transition-base),
-    transform var(--transition-base),
-    border-color var(--transition-base);
+    transform var(--transition-base);
   animation: slide-up var(--transition-slow) both;
   cursor: default;
-  position: relative;
-  overflow: hidden;
-}
-
-.kpi-card::after {
-  content: "";
-  position: absolute;
-  inset: 0;
-  background: var(--gradient-surface);
-  opacity: 0.5;
-  pointer-events: none;
 }
 
 .kpi-card:hover {
   box-shadow: var(--shadow-md);
-  transform: translateY(-3px);
+  transform: translateY(-2px);
 }
 
 /* Stagger animado para os KPI cards */
