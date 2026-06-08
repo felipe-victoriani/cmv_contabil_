@@ -7,9 +7,7 @@
   left: 0;
   right: 0;
   height: var(--topbar-height);
-  background: color-mix(in srgb, var(--color-surface) 92%, transparent);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
+  background: var(--color-surface);
   border-bottom: 1px solid var(--color-border);
   display: flex;
   align-items: center;
@@ -94,7 +92,6 @@
 .topbar__nav-link--active {
   background: var(--color-primary-lt);
   color: var(--color-primary-dk);
-  font-weight: 600;
 }
 
 .topbar__nav-link i {
@@ -139,7 +136,7 @@
   width: 32px;
   height: 32px;
   border-radius: var(--radius-full);
-  background: var(--gradient-primary);
+  background: var(--color-primary);
   color: #fff;
   font-size: var(--text-sm);
   font-weight: 600;
@@ -147,8 +144,6 @@
   align-items: center;
   justify-content: center;
   flex-shrink: 0;
-  box-shadow: 0 2px 6px
-    color-mix(in srgb, var(--color-primary) 40%, transparent);
 }
 
 .topbar__email {
@@ -206,11 +201,11 @@
     padding: var(--space-8) var(--space-4);
     transform: translateX(-100%);
     transition: transform var(--transition-slow);
-    will-change: transform;
   }
 
   .topbar__nav--open {
     transform: translateX(0);
+    animation: slide-in-left var(--transition-slow) forwards;
   }
 
   .topbar__nav-list {
@@ -221,13 +216,6 @@
 
   .topbar__nav-link {
     padding: var(--space-3) var(--space-4);
-    border-left: 3px solid transparent;
-    border-radius: 0 var(--radius-md) var(--radius-md) 0;
-  }
-
-  .topbar__nav-link--active {
-    border-left-color: var(--color-primary);
-    padding-left: calc(var(--space-4) - 3px);
   }
 
   .topbar__email {
