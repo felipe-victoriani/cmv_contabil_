@@ -201,11 +201,11 @@
     padding: var(--space-8) var(--space-4);
     transform: translateX(-100%);
     transition: transform var(--transition-slow);
-    will-change: transform;
   }
 
   .topbar__nav--open {
     transform: translateX(0);
+    animation: slide-in-left var(--transition-slow) forwards;
   }
 
   .topbar__nav-list {
@@ -216,13 +216,6 @@
 
   .topbar__nav-link {
     padding: var(--space-3) var(--space-4);
-    border-left: 3px solid transparent;
-    border-radius: 0 var(--radius-md) var(--radius-md) 0;
-  }
-
-  .topbar__nav-link--active {
-    border-left-color: var(--color-primary);
-    padding-left: calc(var(--space-4) - 3px);
   }
 
   .topbar__email {
