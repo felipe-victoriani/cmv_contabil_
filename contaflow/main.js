@@ -110,19 +110,21 @@ try {
   watchAuthState(async (user) => {
     setState("user", user);
 
-    // Remove o overlay de loading e cancela o timeout de segurança
+    // Cancela o timeout de segurança
     window._clearLoadTimeout?.();
-    document.getElementById("app-loading")?.remove();
 
     const hash = window.location.hash || "#/clientes";
 
     if (user) {
+      // Monta o header ANTES de remover o overlay para evitar flash sem header
       await mountTopbar(user);
+      document.getElementById("app-loading")?.remove();
       startGlobalWatchers();
       startPrazosAlert();
       if (hash === "#/login") navigate("#/home");
       else resolveRoute();
     } else {
+      document.getElementById("app-loading")?.remove();
       stopGlobalWatchers();
       stopPrazosAlert();
       unmountTopbar();
