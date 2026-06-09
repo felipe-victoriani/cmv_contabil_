@@ -108,14 +108,26 @@
   width: 40px;
   height: 40px;
   border-radius: var(--radius-full);
-  background: var(--color-primary-lt);
-  color: var(--color-primary-dk);
+  background: var(--gradient-primary);
+  color: #fff;
   font-weight: 700;
   font-size: var(--text-lg);
   display: flex;
   align-items: center;
   justify-content: center;
   flex-shrink: 0;
+  box-shadow: 0 2px 8px
+    color-mix(in srgb, var(--color-primary) 35%, transparent);
+}
+
+.cliente-card:nth-child(3n + 2) .cliente-card__avatar {
+  background: var(--gradient-accent);
+  box-shadow: 0 2px 8px color-mix(in srgb, var(--color-accent) 30%, transparent);
+}
+
+.cliente-card:nth-child(3n + 3) .cliente-card__avatar {
+  background: linear-gradient(135deg, #0284c7 0%, #0369a1 100%);
+  box-shadow: 0 2px 8px color-mix(in srgb, #0284c7 30%, transparent);
 }
 
 .cliente-card__info {

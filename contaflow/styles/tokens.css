@@ -11,19 +11,24 @@
     --color-muted: #7a7570;
 
     /* Primária */
-    --color-primary: #2d6a4f;
-    --color-primary-lt: #d8eddf;
-    --color-primary-dk: #1b4332;
+    --color-primary: #059669;
+    --color-primary-lt: #d1fae5;
+    --color-primary-dk: #047857;
+
+    /* Accent (violeta) */
+    --color-accent: #7c3aed;
+    --color-accent-lt: #ede9fe;
+    --color-accent-dk: #5b21b6;
 
     /* Semânticas */
-    --color-warning: #b5860d;
-    --color-warning-lt: #fef6e4;
-    --color-danger: #c0392b;
-    --color-danger-lt: #fdecea;
-    --color-info: #2563eb;
-    --color-info-lt: #dbeafe;
-    --color-success: #2d6a4f;
-    --color-success-lt: #d8eddf;
+    --color-warning: #d97706;
+    --color-warning-lt: #fef3c7;
+    --color-danger: #dc2626;
+    --color-danger-lt: #fee2e2;
+    --color-info: #0284c7;
+    --color-info-lt: #e0f2fe;
+    --color-success: #059669;
+    --color-success-lt: #d1fae5;
 
     /* Tipografia */
     --font-display: "DM Serif Display", serif;
@@ -80,8 +85,13 @@
     /* Gradiente primário */
     --gradient-primary: linear-gradient(
       135deg,
-      var(--color-primary) 0%,
+      #0d9e72 0%,
       var(--color-primary-dk) 100%
+    );
+    --gradient-accent: linear-gradient(
+      135deg,
+      var(--color-accent) 0%,
+      var(--color-accent-dk) 100%
     );
     --gradient-surface: linear-gradient(
       180deg,
