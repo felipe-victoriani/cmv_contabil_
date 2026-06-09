@@ -116,8 +116,11 @@ try {
     const hash = window.location.hash || "#/clientes";
 
     if (user) {
-      // Monta o header ANTES de remover o overlay para evitar flash sem header
+      // Monta o header e aguarda o browser pintar antes de remover o overlay
       await mountTopbar(user);
+      await new Promise((resolve) =>
+        requestAnimationFrame(() => requestAnimationFrame(resolve)),
+      );
       document.getElementById("app-loading")?.remove();
       startGlobalWatchers();
       startPrazosAlert();
