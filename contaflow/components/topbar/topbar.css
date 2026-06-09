@@ -7,8 +7,13 @@
   left: 0;
   right: 0;
   height: var(--topbar-height);
+<<<<<<< HEAD
   background: linear-gradient(135deg, #064e35 0%, #0a6647 55%, #0e7a58 100%);
   border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+=======
+  background: var(--color-surface);
+  border-bottom: 1px solid var(--color-border);
+>>>>>>> 496e0981649a1f461ed0431b4d8ff4555f24a362
   display: flex;
   align-items: center;
   padding: 0 var(--space-6);
@@ -90,9 +95,14 @@
 }
 
 .topbar__nav-link--active {
+<<<<<<< HEAD
   background: rgba(255, 255, 255, 0.16);
   color: #fff;
   font-weight: 600;
+=======
+  background: var(--color-primary-lt);
+  color: var(--color-primary-dk);
+>>>>>>> 496e0981649a1f461ed0431b4d8ff4555f24a362
 }
 
 .topbar__nav-link i {
@@ -137,8 +147,12 @@
   width: 32px;
   height: 32px;
   border-radius: var(--radius-full);
+<<<<<<< HEAD
   background: rgba(255, 255, 255, 0.22);
   border: 1.5px solid rgba(255, 255, 255, 0.4);
+=======
+  background: var(--color-primary);
+>>>>>>> 496e0981649a1f461ed0431b4d8ff4555f24a362
   color: #fff;
   font-size: var(--text-sm);
   font-weight: 600;
@@ -203,11 +217,11 @@
     padding: var(--space-8) var(--space-4);
     transform: translateX(-100%);
     transition: transform var(--transition-slow);
-    will-change: transform;
   }
 
   .topbar__nav--open {
     transform: translateX(0);
+    animation: slide-in-left var(--transition-slow) forwards;
   }
 
   .topbar__nav-list {
