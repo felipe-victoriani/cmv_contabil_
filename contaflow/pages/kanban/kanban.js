@@ -199,6 +199,13 @@ function renderBoard(container) {
 
     if (countEl) countEl.textContent = lista.length;
 
+    // Registra IDs já presentes antes de re-renderizar
+    const existingIds = new Set(
+      [...cardsEl.querySelectorAll(".kanban__card[data-id]")].map(
+        (el) => el.dataset.id,
+      ),
+    );
+
     if (!lista.length) {
       cardsEl.innerHTML = `
         <div class="kanban__empty" aria-label="Sem tarefas nesta coluna">
@@ -300,6 +307,18 @@ function renderBoard(container) {
       `;
       })
       .join("");
+
+    // Anima apenas cards que não estavam no DOM antes
+    cardsEl.querySelectorAll(".kanban__card[data-id]").forEach((el) => {
+      if (!existingIds.has(el.dataset.id)) {
+        el.classList.add("kanban__card--new");
+        el.addEventListener(
+          "animationend",
+          () => el.classList.remove("kanban__card--new"),
+          { once: true },
+        );
+      }
+    });
 
     bindDropZone(cardsEl, col.id);
     bindCardEvents(cardsEl, container);
